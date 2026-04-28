@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  body {
+    @apply antialiased overflow-x-hidden;
+    font-family: 'Inter', sans-serif;
+    background: #0d0f1a;
+    color: #e2e8f0;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400;
+  }
+  .bg-glass {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .bg-card {
+    background: #151929;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .bg-sidebar {
+    background: #131624;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a3050; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #3b4fd4; }
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, #1a1f35 25%, #252b45 50%, #1a1f35 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
