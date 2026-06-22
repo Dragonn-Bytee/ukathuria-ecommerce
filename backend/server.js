@@ -48,8 +48,13 @@ app.use(helmet({
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = process.env.ALLOWED_ORIGINS 
-      ? process.env.ALLOWED_ORIGINS.split(',')
-      : ['http://localhost:3000', 'http://localhost:5173', 'https://ukathuria-ecommerce.vercel.app'];
+      ? process.env.ALLOWED_ORIGINS.split(',').map(str => str.trim())
+      : ['http://localhost:3000', 'http://localhost:5173'];
+      
+    // Always include the production frontend URL
+    if (!allowedOrigins.includes('https://ukathuria-ecommerce.vercel.app')) {
+      allowedOrigins.push('https://ukathuria-ecommerce.vercel.app');
+    }
     
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
@@ -57,6 +62,7 @@ const corsOptions = {
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.warn(`CORS blocked request from origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
