@@ -49,7 +49,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = process.env.ALLOWED_ORIGINS 
       ? process.env.ALLOWED_ORIGINS.split(',')
-      : ['http://localhost:3000', 'http://localhost:5173'];
+      : ['http://localhost:3000', 'http://localhost:5173', 'https://ukathuria-ecommerce.vercel.app'];
     
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
