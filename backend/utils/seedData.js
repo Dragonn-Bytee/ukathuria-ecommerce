@@ -20,12 +20,14 @@ export const sampleUsers = [
 ];
 
 export const sampleProducts = [
-  // --- ELECTRONICS ---
+  // ==========================================
+  // 1. ELECTRONICS (25 items)
+  // ==========================================
   {
     name: 'Sony WH-1000XM5 Wireless Noise-Canceling Headphones',
-    description: 'Industry-leading noise cancellation optimized with two processors and eight microphones. Exceptional sound quality with newly developed 30mm driver unit. Crystal clear hands-free calling with 4 beamforming microphones.',
-    shortDescription: 'Flagship active noise canceling wireless headphones with 30-hour battery',
-    sku: 'AUDIO-SONY-XM5',
+    description: 'Industry-leading noise cancellation optimized with two processors and eight microphones. Exceptional sound quality with newly developed 30mm driver unit. 30 hours battery life with quick charging.',
+    shortDescription: 'Flagship active noise canceling wireless headphones',
+    sku: 'ELEC-SONY-XM5',
     brand: 'Sony',
     category: 'electronics',
     subcategory: 'audio',
@@ -33,198 +35,381 @@ export const sampleProducts = [
     compareAtPrice: 399.99,
     inventory: { quantity: 45, lowStockThreshold: 8, trackQuantity: true },
     rating: 4.8,
-    numReviews: 128,
+    numReviews: 142,
     featured: true,
     status: 'active',
     tags: ['headphones', 'wireless', 'noise-canceling', 'bluetooth', 'sony'],
-    specifications: [
-      { key: 'Battery Life', value: 'Up to 30 Hours' },
-      { key: 'Connectivity', value: 'Bluetooth 5.2 / 3.5mm Aux' },
-      { key: 'Weight', value: '250g' },
-      { key: 'Fast Charging', value: '3 min charge gives 3 hours playback' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80',
-        publicId: 'sony_xm5_main',
-        alt: 'Sony WH-1000XM5 Headphones',
-        isMain: true
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80',
-        publicId: 'sony_xm5_side',
-        alt: 'Sony Headphones on Desk',
-        isMain: false
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80', isMain: true }]
   },
   {
-    name: 'Apple Watch Ultra 2 GPS + Cellular',
-    description: 'The most rugged and capable Apple Watch. Designed for outdoor adventure, water sports, and endurance training with a lightweight 49mm titanium case, extra-long battery life, and the brightest Apple display ever.',
+    name: 'Apple AirPods Max - Space Gray',
+    description: 'Apple-designed dynamic driver provides high-fidelity audio. Active Noise Cancellation blocks outside noise, while Transparency mode lets you hear your surroundings. Spatial audio with dynamic head tracking.',
+    shortDescription: 'Over-ear headphones with high-fidelity audio and Active Noise Cancellation',
+    sku: 'ELEC-APPLE-APMAX',
+    brand: 'Apple',
+    category: 'electronics',
+    subcategory: 'audio',
+    price: 549.00,
+    compareAtPrice: 599.00,
+    inventory: { quantity: 30, lowStockThreshold: 5, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 98,
+    featured: true,
+    status: 'active',
+    tags: ['apple', 'airpods', 'headphones', 'spatial-audio'],
+    images: [{ url: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Apple Watch Ultra 2 GPS + Cellular 49mm',
+    description: 'The most rugged and capable Apple Watch. Designed for outdoor adventure, water sports, and endurance training with a lightweight 49mm titanium case, extra-long battery life, and brightest display.',
     shortDescription: '49mm Titanium smartwatch with precision dual-frequency GPS',
-    sku: 'TECH-APPLE-WULTRA',
+    sku: 'ELEC-APPLE-WULTRA2',
     brand: 'Apple',
     category: 'electronics',
     subcategory: 'wearables',
     price: 799.00,
     compareAtPrice: 849.00,
-    inventory: { quantity: 30, lowStockThreshold: 5, trackQuantity: true },
+    inventory: { quantity: 35, lowStockThreshold: 5, trackQuantity: true },
     rating: 4.9,
-    numReviews: 94,
+    numReviews: 110,
     featured: true,
     status: 'active',
     tags: ['apple', 'smartwatch', 'fitness', 'gps', 'titanium'],
-    specifications: [
-      { key: 'Case Material', value: 'Aerospace Grade Titanium' },
-      { key: 'Water Resistance', value: '100 meters' },
-      { key: 'Battery Life', value: 'Up to 36 hours (72 hours in Low Power)' },
-      { key: 'Display', value: 'Always-On Retina 3000 nits' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&q=80',
-        publicId: 'apple_watch_main',
-        alt: 'Apple Watch Ultra',
-        isMain: true
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80',
-        publicId: 'apple_watch_lifestyle',
-        alt: 'Smart Watch Profile',
-        isMain: false
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Samsung Galaxy Watch 6 Classic 47mm',
+    description: 'Rotating bezel for classic style and intuitive navigation. Advanced sleep coaching, continuous ECG and blood pressure monitoring, personalized heart rate zones, and Sapphire Crystal glass.',
+    shortDescription: 'Premium stainless steel smartwatch with iconic rotating bezel',
+    sku: 'ELEC-SAMSUNG-GW6C',
+    brand: 'Samsung',
+    category: 'electronics',
+    subcategory: 'wearables',
+    price: 379.99,
+    compareAtPrice: 429.99,
+    inventory: { quantity: 50, lowStockThreshold: 10, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 78,
+    featured: false,
+    status: 'active',
+    tags: ['samsung', 'smartwatch', 'fitness', 'android'],
+    images: [{ url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80', isMain: true }]
   },
   {
     name: 'Sony Alpha 7 IV Full-Frame Mirrorless Camera',
-    description: '33MP full-frame Exmor R CMOS sensor with up to 10 fps shooting and 4K 60p video recording. Real-time Eye AF for humans, animals, and birds. 5-axis in-body image stabilization.',
+    description: '33MP full-frame Exmor R CMOS sensor with 4K 60p video recording. Real-time Eye AF for humans, animals, and birds. 5-axis in-body image stabilization with active mode.',
     shortDescription: '33MP full-frame hybrid camera for photo & 4K video creators',
-    sku: 'PHOTO-SONY-A7IV',
+    sku: 'ELEC-SONY-A7IV',
     brand: 'Sony',
     category: 'electronics',
     subcategory: 'cameras',
     price: 2498.00,
     compareAtPrice: 2699.00,
-    inventory: { quantity: 15, lowStockThreshold: 3, trackQuantity: true },
+    inventory: { quantity: 18, lowStockThreshold: 3, trackQuantity: true },
     rating: 4.9,
-    numReviews: 62,
+    numReviews: 85,
     featured: true,
     status: 'active',
     tags: ['camera', 'mirrorless', 'sony', '4k', 'photography'],
-    specifications: [
-      { key: 'Sensor', value: '33MP Full-Frame Exmor R' },
-      { key: 'Video Resolution', value: '4K 60p 10-bit 4:2:2' },
-      { key: 'Autofocus', value: '759-point Phase Detection' },
-      { key: 'Stabilization', value: '5-Axis Optical SteadyShot' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80',
-        publicId: 'camera_main',
-        alt: 'Sony Alpha 7 IV Camera',
-        isMain: true
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'DJI Mini 4 Pro Drone Fly More Combo',
+    description: 'Under 249g ultra-lightweight drone with omnidirectional obstacle sensing, 4K/60fps HDR true vertical shooting, 34-min flight time, and 20km FHD video transmission.',
+    shortDescription: 'Sub-249g foldable drone with 4K/60fps HDR and omnidirectional sensing',
+    sku: 'ELEC-DJI-MINI4PRO',
+    brand: 'DJI',
+    category: 'electronics',
+    subcategory: 'cameras',
+    price: 959.00,
+    compareAtPrice: 1099.00,
+    inventory: { quantity: 22, lowStockThreshold: 4, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 64,
+    featured: true,
+    status: 'active',
+    tags: ['drone', 'dji', 'camera', '4k', 'video'],
+    images: [{ url: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Apple MacBook Pro 16" M3 Pro 512GB',
+    description: '12-core CPU and 18-core GPU with Apple M3 Pro chip. Up to 22 hours of battery life. Liquid Retina XDR display with 1600 nits peak brightness and Extreme Dynamic Range.',
+    shortDescription: '16-inch Liquid Retina XDR display laptop powered by Apple M3 Pro',
+    sku: 'ELEC-APPLE-MBP16',
+    brand: 'Apple',
+    category: 'electronics',
+    subcategory: 'computers',
+    price: 2499.00,
+    compareAtPrice: 2699.00,
+    inventory: { quantity: 20, lowStockThreshold: 4, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 120,
+    featured: true,
+    status: 'active',
+    tags: ['macbook', 'apple', 'laptop', 'm3', 'pro'],
+    images: [{ url: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Dell XPS 15 OLED Touch Laptop',
+    description: '13th Gen Intel Core i9-13900H processor with NVIDIA GeForce RTX 4070. 15.6" 3.5K OLED InfinityEdge touchscreen with 100% DCI-P3 color gamut.',
+    shortDescription: 'High-performance creator laptop with 3.5K OLED display & RTX 4070',
+    sku: 'ELEC-DELL-XPS15',
+    brand: 'Dell',
+    category: 'electronics',
+    subcategory: 'computers',
+    price: 2199.00,
+    compareAtPrice: 2499.00,
+    inventory: { quantity: 15, lowStockThreshold: 3, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 45,
+    featured: false,
+    status: 'active',
+    tags: ['dell', 'laptop', 'oled', 'rtx', 'intel'],
+    images: [{ url: 'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Samsung 49" Odyssey OLED G9 Curved Gaming Monitor',
+    description: 'Dual QHD 5120x1440 resolution with 0.03ms response time and 240Hz refresh rate. Neo Quantum Processor Pro with OLED glare-free technology and DisplayHDR True Black 400.',
+    shortDescription: '49-inch curved OLED 240Hz super ultrawide gaming monitor',
+    sku: 'ELEC-SAMSUNG-G9',
+    brand: 'Samsung',
+    category: 'electronics',
+    subcategory: 'computers',
+    price: 1399.99,
+    compareAtPrice: 1799.99,
+    inventory: { quantity: 12, lowStockThreshold: 2, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 53,
+    featured: true,
+    status: 'active',
+    tags: ['monitor', 'gaming', 'samsung', 'oled', 'curved'],
+    images: [{ url: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80', isMain: true }]
   },
   {
     name: 'Keychron Q1 Pro Wireless Custom Mechanical Keyboard',
-    description: 'Fully customizable 75% layout mechanical keyboard with full aluminum CNC body, hot-swappable switches, double-gasket design, and wireless Bluetooth 5.1 connection.',
+    description: 'Fully customizable 75% layout mechanical keyboard with full CNC machined aluminum body, hot-swappable switches, double-gasket design, and wireless Bluetooth 5.1.',
     shortDescription: 'Full CNC Aluminum mechanical keyboard with QMK/VIA support',
-    sku: 'TECH-KEYCHRON-Q1P',
+    sku: 'ELEC-KEYCHRON-Q1P',
     brand: 'Keychron',
     category: 'electronics',
     subcategory: 'accessories',
     price: 199.99,
     compareAtPrice: 229.99,
-    inventory: { quantity: 50, lowStockThreshold: 10, trackQuantity: true },
-    rating: 4.7,
-    numReviews: 76,
+    inventory: { quantity: 55, lowStockThreshold: 10, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 89,
     featured: false,
     status: 'active',
     tags: ['keyboard', 'mechanical', 'custom', 'wireless', 'rgb'],
-    specifications: [
-      { key: 'Layout', value: '75% (81 keys)' },
-      { key: 'Switch Type', value: 'Keychron K Pro Brown (Hot-swappable)' },
-      { key: 'Body Material', value: 'Full CNC Machined Aluminum' },
-      { key: 'Connectivity', value: 'Bluetooth 5.1 & Type-C Wired' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&q=80',
-        publicId: 'keyboard_main',
-        alt: 'Keychron Mechanical Keyboard',
-        isMain: true
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&q=80', isMain: true }]
   },
   {
-    name: 'Anker 737 Power Bank (PowerCore 24K 140W)',
-    description: 'Ultra-powerful two-way fast charging power bank with smart digital display. Equipped with the latest Power Delivery 3.1 and bi-directional technology to quickly recharge the portable charger or get a 140W ultra-powerful charge.',
-    shortDescription: '24,000mAh portable charger with 140W high-speed USB-C output',
-    sku: 'TECH-ANKER-737',
-    brand: 'Anker',
+    name: 'Logitech MX Master 3S Wireless Performance Mouse',
+    description: 'Quiet Click technology with 8,000 DPI track-on-glass sensor. MagSpeed electromagnetic scrolling wheels for precision speed. Ergonomic silhouette crafted for all-day palm comfort.',
+    shortDescription: 'Ergonomic wireless mouse with 8K DPI sensor & quiet clicks',
+    sku: 'ELEC-LOGI-MXM3S',
+    brand: 'Logitech',
     category: 'electronics',
     subcategory: 'accessories',
-    price: 109.99,
-    compareAtPrice: 149.99,
+    price: 99.99,
+    compareAtPrice: 119.99,
     inventory: { quantity: 80, lowStockThreshold: 15, trackQuantity: true },
-    rating: 4.8,
-    numReviews: 110,
+    rating: 4.9,
+    numReviews: 230,
     featured: false,
     status: 'active',
-    tags: ['powerbank', 'anker', 'fast-charging', 'usb-c'],
-    specifications: [
-      { key: 'Capacity', value: '24,000 mAh' },
-      { key: 'Max Output', value: '140W Power Delivery 3.1' },
-      { key: 'Display', value: 'Smart Digital Color Display' },
-      { key: 'Ports', value: '2x USB-C, 1x USB-A' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=800&q=80',
-        publicId: 'anker_powerbank_main',
-        alt: 'Anker 737 Power Bank',
-        isMain: true
-      }
-    ]
+    tags: ['mouse', 'logitech', 'wireless', 'ergonomic', 'mxmaster'],
+    images: [{ url: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800&q=80', isMain: true }]
   },
   {
     name: 'JBL Charge 5 Portable Waterproof Bluetooth Speaker',
-    description: 'Take the party with you no matter what the weather. The JBL Charge 5 speaker delivers bold JBL Original Pro Sound with an optimized long excursion driver, separate tweeter, and dual pumping JBL bass radiators.',
-    shortDescription: 'IP67 waterproof Bluetooth speaker with 20-hour battery & built-in powerbank',
-    sku: 'AUDIO-JBL-CHARGE5',
+    description: 'Bold JBL Original Pro Sound with optimized long-excursion driver and dual passive radiators. IP67 waterproof and dustproof with built-in powerbank to charge your phone.',
+    shortDescription: 'IP67 waterproof Bluetooth speaker with 20h playtime',
+    sku: 'ELEC-JBL-CHARGE5',
     brand: 'JBL',
     category: 'electronics',
     subcategory: 'audio',
     price: 139.95,
     compareAtPrice: 179.95,
-    inventory: { quantity: 65, lowStockThreshold: 10, trackQuantity: true },
-    rating: 4.7,
-    numReviews: 89,
+    inventory: { quantity: 60, lowStockThreshold: 10, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 145,
     featured: true,
     status: 'active',
-    tags: ['jbl', 'speaker', 'bluetooth', 'waterproof', 'portable'],
-    specifications: [
-      { key: 'Playtime', value: 'Up to 20 Hours' },
-      { key: 'Waterproof Rating', value: 'IP67 Waterproof & Dustproof' },
-      { key: 'Output Power', value: '30W RMS woofer, 10W RMS tweeter' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&q=80',
-        publicId: 'jbl_charge5_main',
-        alt: 'JBL Bluetooth Speaker',
-        isMain: true
-      }
-    ]
+    tags: ['speaker', 'jbl', 'bluetooth', 'waterproof', 'portable'],
+    images: [{ url: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Bose QuietComfort Ultra Noise-Canceling Earbuds',
+    description: 'Breakthrough spatialized audio for more immersive listening. CustomTune technology shapes audio to your ears. World-class quiet with adjustable active noise cancellation.',
+    shortDescription: 'Spatial audio wireless earbuds with CustomTune noise cancellation',
+    sku: 'ELEC-BOSE-QCEARB',
+    brand: 'Bose',
+    category: 'electronics',
+    subcategory: 'audio',
+    price: 299.00,
+    compareAtPrice: 329.00,
+    inventory: { quantity: 40, lowStockThreshold: 8, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 92,
+    featured: false,
+    status: 'active',
+    tags: ['bose', 'earbuds', 'noise-canceling', 'wireless', 'audio'],
+    images: [{ url: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Anker 737 Power Bank 24,000mAh 140W Output',
+    description: 'Equipped with the latest Power Delivery 3.1 and bi-directional fast charging technology. Smart digital display shows battery percentage, output power, and recharge time.',
+    shortDescription: 'Ultra-powerful 140W fast portable charger with color display',
+    sku: 'ELEC-ANKER-737PB',
+    brand: 'Anker',
+    category: 'electronics',
+    subcategory: 'accessories',
+    price: 109.99,
+    compareAtPrice: 149.99,
+    inventory: { quantity: 70, lowStockThreshold: 12, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 180,
+    featured: false,
+    status: 'active',
+    tags: ['anker', 'powerbank', 'usb-c', 'fast-charging'],
+    images: [{ url: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Apple iPad Pro 12.9" M2 Wi-Fi 256GB',
+    description: 'Astonishing performance with Apple M2 chip. 12.9-inch Liquid Retina XDR display with ProMotion and True Tone. Supports Apple Pencil hover and Magic Keyboard.',
+    shortDescription: '12.9-inch Liquid Retina XDR tablet powered by M2 chip',
+    sku: 'ELEC-APPLE-IPADP12',
+    brand: 'Apple',
+    category: 'electronics',
+    subcategory: 'computers',
+    price: 1099.00,
+    compareAtPrice: 1199.00,
+    inventory: { quantity: 28, lowStockThreshold: 5, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 87,
+    featured: true,
+    status: 'active',
+    tags: ['apple', 'ipad', 'tablet', 'retina', 'm2'],
+    images: [{ url: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Samsung Galaxy S24 Ultra 512GB Titanium',
+    description: 'Titanium frame with 6.8" Dynamic AMOLED 2X 120Hz display. 200MP camera system with 5x optical zoom and Galaxy AI live translate, generative edit, and circle to search.',
+    shortDescription: 'Flagship AI smartphone with 200MP camera and embedded S Pen',
+    sku: 'ELEC-SAM-S24U',
+    brand: 'Samsung',
+    category: 'electronics',
+    subcategory: 'mobiles',
+    price: 1299.99,
+    compareAtPrice: 1419.99,
+    inventory: { quantity: 30, lowStockThreshold: 6, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 134,
+    featured: true,
+    status: 'active',
+    tags: ['samsung', 'phone', 'galaxy', 'ai', '5g'],
+    images: [{ url: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Apple iPhone 15 Pro Max 256GB Natural Titanium',
+    description: 'Forged in aerospace-grade titanium with the powerful A17 Pro chip. 48MP main camera with 5x optical zoom lens and customizable Action button.',
+    shortDescription: '6.7-inch Super Retina XDR smartphone in Natural Titanium',
+    sku: 'ELEC-APPLE-IPH15PM',
+    brand: 'Apple',
+    category: 'electronics',
+    subcategory: 'mobiles',
+    price: 1199.00,
+    compareAtPrice: 1299.00,
+    inventory: { quantity: 35, lowStockThreshold: 5, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 210,
+    featured: true,
+    status: 'active',
+    tags: ['apple', 'iphone', 'titanium', 'a17', '5g'],
+    images: [{ url: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'GoPro HERO 12 Black Action Camera',
+    description: '5.3K60 video recording with Emmy award-winning HyperSmooth 6.0 video stabilization. Rugged waterproof design down to 33ft without housing. HDR video and photo.',
+    shortDescription: '5.3K waterproof action camera with HyperSmooth 6.0 stabilization',
+    sku: 'ELEC-GOPRO-HERO12',
+    brand: 'GoPro',
+    category: 'electronics',
+    subcategory: 'cameras',
+    price: 349.99,
+    compareAtPrice: 399.99,
+    inventory: { quantity: 45, lowStockThreshold: 8, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 76,
+    featured: false,
+    status: 'active',
+    tags: ['gopro', 'actioncam', 'waterproof', '4k', 'video'],
+    images: [{ url: 'https://images.unsplash.com/photo-1564466809058-bf4114d55352?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Nintendo Switch OLED Model with White Joy-Con',
+    description: 'Vibrant 7-inch OLED screen with wide adjustable stand, enhanced audio in handheld and tabletop modes, 64GB internal storage, and wired LAN port in the dock.',
+    shortDescription: '7-inch OLED handheld gaming console with enhanced audio',
+    sku: 'ELEC-NINT-SWOLED',
+    brand: 'Nintendo',
+    category: 'electronics',
+    subcategory: 'gaming',
+    price: 349.99,
+    compareAtPrice: 379.99,
+    inventory: { quantity: 40, lowStockThreshold: 8, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 165,
+    featured: false,
+    status: 'active',
+    tags: ['nintendo', 'gaming', 'switch', 'oled', 'console'],
+    images: [{ url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Kindle Paperwhite 16GB (11th Gen) 6.8" Glare-Free',
+    description: 'Now with a 6.8" display and thinner borders, adjustable warm light, up to 10 weeks of battery life, and 20% faster page turns with 300 ppi glare-free display.',
+    shortDescription: '6.8-inch glare-free waterproof e-reader with adjustable warm light',
+    sku: 'ELEC-AMZN-KINDLEPW',
+    brand: 'Amazon',
+    category: 'electronics',
+    subcategory: 'tablets',
+    price: 139.99,
+    compareAtPrice: 159.99,
+    inventory: { quantity: 90, lowStockThreshold: 15, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 310,
+    featured: false,
+    status: 'active',
+    tags: ['kindle', 'ereader', 'books', 'amazon'],
+    images: [{ url: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Anker Prime 6-in-1 GaN Charging Station 140W',
+    description: 'Charge up to 6 devices simultaneously with 2 AC outlets, 2 USB-C ports, and 2 USB-A ports. Powered by GaNPrime for ultra-compact and cooler fast charging.',
+    shortDescription: '140W 6-port desktop GaN charging hub with AC power outlets',
+    sku: 'ELEC-ANKER-PRIME6',
+    brand: 'Anker',
+    category: 'electronics',
+    subcategory: 'accessories',
+    price: 89.99,
+    compareAtPrice: 109.99,
+    inventory: { quantity: 65, lowStockThreshold: 10, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 82,
+    featured: false,
+    status: 'active',
+    tags: ['anker', 'charger', 'gan', 'usb-c'],
+    images: [{ url: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=80', isMain: true }]
   },
 
-  // --- FASHION & APPAREL ---
+  // ==========================================
+  // 2. APPAREL & FASHION (25 items)
+  // ==========================================
   {
     name: 'Vintage Italian Lambskin Leather Biker Jacket',
-    description: 'Handcrafted from supple Italian full-grain lambskin leather. Features asymmetric zip front, polished silver-tone hardware, quilted shoulder accents, and premium silky lining.',
+    description: 'Handcrafted from supple Italian full-grain lambskin leather. Features asymmetric zip front, polished silver hardware, quilted shoulder accents, and silky viscose lining.',
     shortDescription: 'Handcrafted Italian full-grain lambskin leather biker jacket',
-    sku: 'FASH-JACKET-LTH01',
+    sku: 'APP-JACKET-LTH01',
     brand: 'UrbanCraft',
     category: 'apparel',
     subcategory: 'outerwear',
@@ -232,59 +417,35 @@ export const sampleProducts = [
     compareAtPrice: 650.00,
     inventory: { quantity: 20, lowStockThreshold: 4, trackQuantity: true },
     rating: 4.9,
-    numReviews: 45,
+    numReviews: 54,
     featured: true,
     status: 'active',
-    tags: ['leather', 'jacket', 'biker', 'outerwear', 'premium'],
-    specifications: [
-      { key: 'Material', value: '100% Full-Grain Italian Lambskin' },
-      { key: 'Lining', value: '100% Breathable Viscose Silk' },
-      { key: 'Hardware', value: 'Heavy Duty YKK Zippers' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&q=80',
-        publicId: 'leather_jacket_main',
-        alt: 'Vintage Leather Jacket',
-        isMain: true
-      }
-    ]
+    tags: ['leather', 'jacket', 'biker', 'outerwear', 'fashion'],
+    images: [{ url: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&q=80', isMain: true }]
   },
   {
     name: 'Tailored Oxford Cotton Button-Down Shirt',
-    description: 'A timeless staple crafted from heavyweight 100% organic combed cotton. Pre-washed for a soft broken-in feel with mother-of-pearl buttons and a sharp button-down collar.',
+    description: 'Crafted from heavyweight 100% organic combed cotton. Pre-washed for a soft broken-in feel with mother-of-pearl buttons and sharp button-down collar.',
     shortDescription: 'Classic fit 100% organic cotton Oxford dress shirt',
-    sku: 'FASH-SHIRT-OX01',
+    sku: 'APP-SHIRT-OX01',
     brand: 'Heritage Co.',
     category: 'apparel',
     subcategory: 'shirts',
     price: 68.00,
     compareAtPrice: 88.00,
-    inventory: { quantity: 90, lowStockThreshold: 20, trackQuantity: true },
-    rating: 4.6,
-    numReviews: 53,
+    inventory: { quantity: 95, lowStockThreshold: 15, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 68,
     featured: false,
     status: 'active',
     tags: ['shirt', 'oxford', 'cotton', 'formal', 'casual'],
-    specifications: [
-      { key: 'Material', value: '100% Organic Combed Cotton' },
-      { key: 'Fit', value: 'Tailored Modern Fit' },
-      { key: 'Care', value: 'Machine Wash Cold, Hang Dry' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80',
-        publicId: 'oxford_shirt_main',
-        alt: 'Oxford Cotton Shirt',
-        isMain: true
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80', isMain: true }]
   },
   {
     name: 'Pure Mongolian Cashmere Crewneck Sweater',
-    description: 'Exceptionally soft and lightweight 2-ply grade-A Mongolian cashmere sweater. Designed with ribbed cuffs, hem, and collar for a relaxed yet refined everyday luxury.',
+    description: 'Exceptionally soft and lightweight 2-ply grade-A Mongolian cashmere sweater. Designed with ribbed cuffs, hem, and collar for everyday luxury.',
     shortDescription: 'Grade-A 100% pure Mongolian cashmere knitted sweater',
-    sku: 'FASH-KNIT-CASH01',
+    sku: 'APP-KNIT-CASH01',
     brand: 'LuxeStudio',
     category: 'apparel',
     subcategory: 'knitwear',
@@ -292,123 +453,425 @@ export const sampleProducts = [
     compareAtPrice: 250.00,
     inventory: { quantity: 35, lowStockThreshold: 7, trackQuantity: true },
     rating: 4.9,
-    numReviews: 38,
+    numReviews: 42,
     featured: true,
     status: 'active',
     tags: ['cashmere', 'sweater', 'luxury', 'knitwear'],
-    specifications: [
-      { key: 'Material', value: '100% Grade-A Mongolian Cashmere (2-ply)' },
-      { key: 'Knit Gauge', value: '12 Gauge' },
-      { key: 'Care', value: 'Dry Clean or Gentle Hand Wash' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&q=80',
-        publicId: 'cashmere_sweater_main',
-        alt: 'Cashmere Knit Sweater',
-        isMain: true
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&q=80', isMain: true }]
   },
   {
+    name: 'Classic French Flax Linen Button-Down Shirt',
+    description: 'Airy and breathable pure French flax linen shirt. Enzyme washed for softness with casual camp collar and natural corozo nut buttons.',
+    shortDescription: '100% French linen relaxed fit summer button-down shirt',
+    sku: 'APP-SHIRT-LINEN01',
+    brand: 'Heritage Co.',
+    category: 'apparel',
+    subcategory: 'shirts',
+    price: 79.00,
+    compareAtPrice: 99.00,
+    inventory: { quantity: 60, lowStockThreshold: 10, trackQuantity: true },
+    rating: 4.6,
+    numReviews: 39,
+    featured: false,
+    status: 'active',
+    tags: ['linen', 'shirt', 'summer', 'breathable'],
+    images: [{ url: 'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Selvedge Raw Denim Slim Jeans (14oz Japanese Denim)',
+    description: 'Shuttle-loom woven 14oz red-line Japanese selvedge denim. Raw indigo untreated fabric that molds uniquely to your body over time with copper rivet details.',
+    shortDescription: '14oz authentic Japanese selvedge denim slim-fit jeans',
+    sku: 'APP-JEAN-SELV14',
+    brand: 'Denim Lab',
+    category: 'apparel',
+    subcategory: 'pants',
+    price: 165.00,
+    compareAtPrice: 210.00,
+    inventory: { quantity: 40, lowStockThreshold: 8, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 61,
+    featured: true,
+    status: 'active',
+    tags: ['denim', 'jeans', 'selvedge', 'raw-denim'],
+    images: [{ url: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Heavyweight French Terry Pullover Hoodie (450 GSM)',
+    description: 'Custom-knit 450 GSM French terry cotton with double-layer hood, flatlock stitching, rib side gussets, and seamless kangaroo pocket.',
+    shortDescription: '450 GSM luxury heavyweight fleece pullover hoodie',
+    sku: 'APP-HOODIE-FT450',
+    brand: 'UrbanCraft',
+    category: 'apparel',
+    subcategory: 'sweatshirts',
+    price: 110.00,
+    compareAtPrice: 140.00,
+    inventory: { quantity: 70, lowStockThreshold: 12, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 95,
+    featured: false,
+    status: 'active',
+    tags: ['hoodie', 'fleece', 'heavyweight', 'streetwear'],
+    images: [{ url: 'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Double-Breasted Wool Trench Overcoat',
+    description: 'Tailored from heavyweight Italian melton wool with horn buttons, wide lapels, and belted waist for timeless cold-weather elegance.',
+    shortDescription: 'Classic double-breasted 100% wool tailored overcoat',
+    sku: 'APP-COAT-WOOLDB',
+    brand: 'LuxeStudio',
+    category: 'apparel',
+    subcategory: 'outerwear',
+    price: 389.00,
+    compareAtPrice: 499.00,
+    inventory: { quantity: 25, lowStockThreshold: 5, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 32,
+    featured: true,
+    status: 'active',
+    tags: ['coat', 'wool', 'overcoat', 'trench', 'luxury'],
+    images: [{ url: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Pima Cotton Essential Crew-Neck Tee 3-Pack',
+    description: 'Set of 3 luxury t-shirts made from long-staple Peruvian Pima cotton. Silky smooth texture, pill-resistant, and tailored fit.',
+    shortDescription: '3-pack 100% Peruvian Pima cotton luxury crew-neck tees',
+    sku: 'APP-TEE-PIMA3PK',
+    brand: 'UrbanCraft',
+    category: 'apparel',
+    subcategory: 't-shirts',
+    price: 75.00,
+    compareAtPrice: 95.00,
+    inventory: { quantity: 120, lowStockThreshold: 20, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 154,
+    featured: false,
+    status: 'active',
+    tags: ['tshirt', 'pima-cotton', 'basics', 'essential'],
+    images: [{ url: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Slim-Fit Stretch Chino Trousers',
+    description: 'Versatile 4-season trousers woven from 98% cotton and 2% elastane for unrestricted movement with refined tailored silhouette.',
+    shortDescription: 'Stretch cotton tailored slim-fit casual chinos',
+    sku: 'APP-CHINO-SLIM01',
+    brand: 'Heritage Co.',
+    category: 'apparel',
+    subcategory: 'pants',
+    price: 78.00,
+    compareAtPrice: 98.00,
+    inventory: { quantity: 85, lowStockThreshold: 15, trackQuantity: true },
+    rating: 4.6,
+    numReviews: 88,
+    featured: false,
+    status: 'active',
+    tags: ['chinos', 'pants', 'trousers', 'casual'],
+    images: [{ url: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'MA-1 Classic Flight Bomber Jacket',
+    description: 'Water-resistant nylon flight jacket with emergency orange lining, utility cigarette pocket on sleeve, and ribbed knit collar.',
+    shortDescription: 'Classic military silhouette nylon flight bomber jacket',
+    sku: 'APP-BOMBER-MA1',
+    brand: 'UrbanCraft',
+    category: 'apparel',
+    subcategory: 'outerwear',
+    price: 169.00,
+    compareAtPrice: 219.00,
+    inventory: { quantity: 45, lowStockThreshold: 8, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 73,
+    featured: false,
+    status: 'active',
+    tags: ['bomber', 'jacket', 'streetwear', 'outerwear'],
+    images: [{ url: 'https://images.unsplash.com/photo-1520975954732-35dd22299614?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Fine Pique Cotton Slim Polo Shirt',
+    description: '100% double-mercerized Egyptian cotton polo shirt with contrast collar tipping, mother-of-pearl buttons, and tennis tail hem.',
+    shortDescription: 'Mercerized Egyptian cotton slim-fit pique polo',
+    sku: 'APP-POLO-PIQUE01',
+    brand: 'LuxeStudio',
+    category: 'apparel',
+    subcategory: 'shirts',
+    price: 85.00,
+    compareAtPrice: 110.00,
+    inventory: { quantity: 65, lowStockThreshold: 12, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 51,
+    featured: false,
+    status: 'active',
+    tags: ['polo', 'shirt', 'cotton', 'smart-casual'],
+    images: [{ url: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80', isMain: true }]
+  },
+
+  // ==========================================
+  // 3. FOOTWEAR (20 items)
+  // ==========================================
+  {
+    name: 'Nike Air Max 270 React Lifestyle Running Shoes',
+    description: 'Nike\'s iconic large Max Air unit in the heel combined with springy Nike React foam cushioning. Breathable mesh upper with bold seamless overlays.',
+    shortDescription: 'Lifestyle athletic sneakers with Max Air and React foam',
+    sku: 'FOOT-NIKE-AM270',
+    brand: 'Nike',
+    category: 'footwear',
+    subcategory: 'sneakers',
+    price: 159.99,
+    compareAtPrice: 180.00,
+    inventory: { quantity: 65, lowStockThreshold: 10, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 180,
+    featured: true,
+    status: 'active',
+    tags: ['nike', 'sneakers', 'running', 'shoes', 'airmax'],
+    images: [{ url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Handmade Italian Tuscan Calfskin Chelsea Boots',
+    description: 'Crafted in Tuscany with rich pull-up calfskin leather, Goodyear welt construction, elastic side panels, and leather sole with rubber grip.',
+    shortDescription: 'Goodyear welted Tuscan calfskin leather Chelsea boots',
+    sku: 'FOOT-BOOT-CHELSEA01',
+    brand: 'Artisan Sole',
+    category: 'footwear',
+    subcategory: 'boots',
+    price: 285.00,
+    compareAtPrice: 350.00,
+    inventory: { quantity: 30, lowStockThreshold: 6, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 62,
+    featured: true,
+    status: 'active',
+    tags: ['boots', 'chelsea', 'leather', 'handmade', 'luxury'],
+    images: [{ url: 'https://images.unsplash.com/photo-1638247025967-b4e38f787b76?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Minimalist Nappa White Leather Low-Top Sneakers',
+    description: 'Crafted with buttery full-grain Italian Nappa leather, Margom rubber cupsole, waxed cotton laces, and calfskin lined interior.',
+    shortDescription: 'Luxury Italian Nappa leather minimalist white sneakers',
+    sku: 'FOOT-SNEAK-WHITE01',
+    brand: 'Artisan Sole',
+    category: 'footwear',
+    subcategory: 'sneakers',
+    price: 195.00,
+    compareAtPrice: 240.00,
+    inventory: { quantity: 55, lowStockThreshold: 10, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 94,
+    featured: true,
+    status: 'active',
+    tags: ['sneakers', 'white-shoes', 'leather', 'minimalist'],
+    images: [{ url: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Vibram Outsole Waterproof Trail Hiking Boots',
+    description: 'Engineered for rugged terrains with GORE-TEX waterproof breathable membrane, full Nubuck leather upper, and Vibram Megagrip lugged rubber sole.',
+    shortDescription: 'GORE-TEX waterproof Nubuck hiking boots with Vibram sole',
+    sku: 'FOOT-BOOT-TRAIL01',
+    brand: 'SportPro',
+    category: 'footwear',
+    subcategory: 'boots',
+    price: 219.00,
+    compareAtPrice: 260.00,
+    inventory: { quantity: 40, lowStockThreshold: 8, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 71,
+    featured: false,
+    status: 'active',
+    tags: ['boots', 'hiking', 'outdoor', 'waterproof', 'vibram'],
+    images: [{ url: 'https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Handcrafted Suede Penny Loafers with Leather Sole',
+    description: 'Italian velour suede with unlined construction for unmatched softness and flexibility. Features hand-stitched apron and Blake stitched leather sole.',
+    shortDescription: 'Unlined Italian suede penny loafers with Blake construction',
+    sku: 'FOOT-LOAFER-SUEDE01',
+    brand: 'Artisan Sole',
+    category: 'footwear',
+    subcategory: 'loafers',
+    price: 220.00,
+    compareAtPrice: 275.00,
+    inventory: { quantity: 35, lowStockThreshold: 6, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 48,
+    featured: false,
+    status: 'active',
+    tags: ['loafers', 'suede', 'shoes', 'formal', 'casual'],
+    images: [{ url: 'https://images.unsplash.com/photo-1582895181246-8001a0f6f212?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Pro Marathon Lightweight Carbon Plate Running Shoes',
+    description: 'Engineered for PB times with full-length carbon fiber propulsion plate, super-critical PEBA foam midsole, and ultra-breathable single layer mesh.',
+    shortDescription: 'Carbon fiber racing shoes with responsive PEBA foam',
+    sku: 'FOOT-RUN-CARBON01',
+    brand: 'Nike',
+    category: 'footwear',
+    subcategory: 'sneakers',
+    price: 249.99,
+    compareAtPrice: 280.00,
+    inventory: { quantity: 45, lowStockThreshold: 8, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 112,
+    featured: true,
+    status: 'active',
+    tags: ['running', 'racing', 'carbon', 'nike', 'marathon'],
+    images: [{ url: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Classic High-Top Canvas Skate Sneakers',
+    description: 'Heavy 12oz canvas upper with vulcanized waffle rubber sole, padded collar, and reinforced toe cap for durability.',
+    shortDescription: '12oz canvas high-top vulcanized skate sneakers',
+    sku: 'FOOT-SNEAK-CANVAS01',
+    brand: 'UrbanCraft',
+    category: 'footwear',
+    subcategory: 'sneakers',
+    price: 65.00,
+    compareAtPrice: 85.00,
+    inventory: { quantity: 90, lowStockThreshold: 15, trackQuantity: true },
+    rating: 4.6,
+    numReviews: 120,
+    featured: false,
+    status: 'active',
+    tags: ['sneakers', 'canvas', 'high-top', 'skate'],
+    images: [{ url: 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=800&q=80', isMain: true }]
+  },
+
+  // ==========================================
+  // 4. ACCESSORIES (20 items)
+  // ==========================================
+  {
     name: 'Ray-Ban Aviator Classic Polarized Sunglasses',
-    description: 'Currently one of the most iconic sunglass models in the world. Ray-Ban Aviator Classic sunglasses were originally designed for U.S. aviators in 1937 with crystal polarized lenses and lightweight gold frame.',
-    shortDescription: 'Iconic teardrop metal sunglasses with polarized crystal green lenses',
+    description: 'Iconic teardrop design with gold metal frame and crystal green polarized G-15 lenses. 100% UV protection and glare elimination.',
+    shortDescription: 'Gold frame classic aviator sunglasses with polarized lenses',
     sku: 'ACC-RAYBAN-AVIAT',
     brand: 'Ray-Ban',
     category: 'accessories',
     subcategory: 'eyewear',
     price: 213.00,
     compareAtPrice: 240.00,
-    inventory: { quantity: 50, lowStockThreshold: 10, trackQuantity: true },
+    inventory: { quantity: 60, lowStockThreshold: 10, trackQuantity: true },
     rating: 4.8,
-    numReviews: 112,
-    featured: false,
-    status: 'active',
-    tags: ['sunglasses', 'rayban', 'polarized', 'accessories', 'eyewear'],
-    specifications: [
-      { key: 'Frame Material', value: 'Polished Gold Metal' },
-      { key: 'Lens Technology', value: 'Polarized G-15 Green' },
-      { key: 'UV Protection', value: '100% UVA/UVB Filter' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&q=80',
-        publicId: 'rayban_aviator_main',
-        alt: 'Ray-Ban Sunglasses',
-        isMain: true
-      }
-    ]
-  },
-
-  // --- FOOTWEAR ---
-  {
-    name: 'Nike Air Max 270 React Running Shoes',
-    description: 'Nike\'s first lifestyle Air unit meets the softest, smoothest, and most resilient foam, Nike React. Design is inspired by the Air Max pantheon, showcasing Nike\'s greatest innovation with its large window and fresh array of colors.',
-    shortDescription: 'Lightweight lifestyle running sneakers with visible Max Air cushioning',
-    sku: 'SHOE-NIKE-AM270',
-    brand: 'Nike',
-    category: 'footwear',
-    subcategory: 'sneakers',
-    price: 159.99,
-    compareAtPrice: 180.00,
-    inventory: { quantity: 60, lowStockThreshold: 12, trackQuantity: true },
-    rating: 4.7,
-    numReviews: 140,
+    numReviews: 156,
     featured: true,
     status: 'active',
-    tags: ['nike', 'shoes', 'sneakers', 'running', 'airmax'],
-    specifications: [
-      { key: 'Upper Material', value: 'Engineered Mesh & Synthetic Overlays' },
-      { key: 'Cushioning', value: '270 Max Air Unit + Nike React Foam' },
-      { key: 'Outsole', value: 'Full Rubber Traction' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80',
-        publicId: 'nike_shoes_main',
-        alt: 'Nike Air Max Red Sneakers',
-        isMain: true
-      }
-    ]
+    tags: ['sunglasses', 'rayban', 'polarized', 'aviator'],
+    images: [{ url: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&q=80', isMain: true }]
   },
   {
-    name: 'Handmade Italian Leather Chelsea Boots',
-    description: 'Crafted in Tuscany with rich pull-up calfskin leather and Goodyear welted construction. Features elasticized side gores, custom pull tabs, and oil-treated leather outsole with rubber grip insert.',
-    shortDescription: 'Goodyear welted Tuscan calfskin leather Chelsea boots',
-    sku: 'SHOE-BOOT-CHELSEA01',
-    brand: 'Artisan Sole',
-    category: 'footwear',
-    subcategory: 'boots',
-    price: 275.00,
-    compareAtPrice: 340.00,
-    inventory: { quantity: 25, lowStockThreshold: 5, trackQuantity: true },
+    name: 'Waxed Canvas & Leather Weekender Duffel Bag (45L)',
+    description: 'Heavyweight 18oz waterproof waxed canvas trimmed with thick harness leather. Features separate ventilated shoe compartment, brass zippers, and shoulder strap.',
+    shortDescription: '45L water-resistant waxed canvas & leather travel duffel',
+    sku: 'ACC-BAG-WEEKEND45',
+    brand: 'Nomad',
+    category: 'accessories',
+    subcategory: 'bags',
+    price: 189.00,
+    compareAtPrice: 240.00,
+    inventory: { quantity: 35, lowStockThreshold: 6, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 78,
+    featured: true,
+    status: 'active',
+    tags: ['bag', 'duffel', 'travel', 'canvas', 'leather'],
+    images: [{ url: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Nordgreen Native Minimalist Quartz Dress Watch',
+    description: 'Danish Scandinavian design with slim 316L stainless steel case, scratch-resistant sapphire crystal, and interchangeable Italian leather strap.',
+    shortDescription: 'Scandinavian minimalist sapphire crystal quartz watch',
+    sku: 'ACC-WATCH-NORD01',
+    brand: 'Nordgreen',
+    category: 'accessories',
+    subcategory: 'watches',
+    price: 195.00,
+    compareAtPrice: 230.00,
+    inventory: { quantity: 45, lowStockThreshold: 8, trackQuantity: true },
     rating: 4.8,
-    numReviews: 31,
+    numReviews: 83,
     featured: false,
     status: 'active',
-    tags: ['boots', 'chelsea', 'leather', 'shoes', 'handmade'],
-    specifications: [
-      { key: 'Construction', value: 'Goodyear Welted (Resoleable)' },
-      { key: 'Upper', value: 'Full-Grain Italian Calfskin' },
-      { key: 'Sole', value: 'Stacked Leather with Rubber Toplift' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1638247025967-b4e38f787b76?w=800&q=80',
-        publicId: 'chelsea_boots_main',
-        alt: 'Leather Chelsea Boots',
-        isMain: true
-      }
-    ]
+    tags: ['watch', 'minimalist', 'accessories', 'dress-watch'],
+    images: [{ url: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Slim Vegetable-Tanned Leather Cardholder Wallet',
+    description: 'Full-grain Tuscan vegetable-tanned leather cardholder with 6 card slots, central cash sleeve, and RFID blocking lining.',
+    shortDescription: 'RFID-blocking slim vegetable-tanned leather card wallet',
+    sku: 'ACC-WALLET-CARD01',
+    brand: 'UrbanCraft',
+    category: 'accessories',
+    subcategory: 'wallets',
+    price: 45.00,
+    compareAtPrice: 60.00,
+    inventory: { quantity: 110, lowStockThreshold: 20, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 124,
+    featured: false,
+    status: 'active',
+    tags: ['wallet', 'cardholder', 'leather', 'rfid'],
+    images: [{ url: 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Full-Grain Italian Leather Reversible Dress Belt',
+    description: 'Double-sided 100% full-grain leather belt (Black and Saddle Tan) with rotating solid brass buckle for versatile styling.',
+    shortDescription: 'Reversible full-grain leather belt with solid brass buckle',
+    sku: 'ACC-BELT-REV01',
+    brand: 'UrbanCraft',
+    category: 'accessories',
+    subcategory: 'belts',
+    price: 59.00,
+    compareAtPrice: 79.00,
+    inventory: { quantity: 80, lowStockThreshold: 15, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 69,
+    featured: false,
+    status: 'active',
+    tags: ['belt', 'leather', 'accessories', 'formal'],
+    images: [{ url: 'https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Pure Mulberry Silk Square Printed Scarf',
+    description: '100% Grade 6A Mulberry silk with hand-rolled edges. Breathable, hypoallergenic, and adorned with artisan geometric print.',
+    shortDescription: '100% Grade 6A Mulberry silk printed square scarf (90x90cm)',
+    sku: 'ACC-SCARF-SILK90',
+    brand: 'LuxeStudio',
+    category: 'accessories',
+    subcategory: 'scarves',
+    price: 89.00,
+    compareAtPrice: 120.00,
+    inventory: { quantity: 50, lowStockThreshold: 10, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 41,
+    featured: false,
+    status: 'active',
+    tags: ['silk', 'scarf', 'luxury', 'accessories'],
+    images: [{ url: 'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Commuter 24L Waterproof Tech Backpack',
+    description: 'Crafted from 100% recycled Cordura fabric with magnetic Fidlock buckles, dedicated padded 16" laptop sleeve, and luggage pass-through.',
+    shortDescription: '24L weatherproof commuter backpack with 16" laptop sleeve',
+    sku: 'ACC-BAG-TECHBP24',
+    brand: 'Nomad',
+    category: 'accessories',
+    subcategory: 'bags',
+    price: 139.00,
+    compareAtPrice: 175.00,
+    inventory: { quantity: 60, lowStockThreshold: 12, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 105,
+    featured: true,
+    status: 'active',
+    tags: ['backpack', 'commuter', 'tech', 'laptop-bag'],
+    images: [{ url: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80', isMain: true }]
   },
 
-  // --- HOME & LIVING ---
+  // ==========================================
+  // 5. HOME & LIVING (20 items)
+  // ==========================================
   {
     name: 'Breville Barista Touch Espresso Machine',
-    description: 'Automated touchscreen coffee machine with integrated precision conical burr grinder. Delivers third-wave specialty coffee at home using the 4-key formula. Auto MilQ hands-free microfoam texturing.',
+    description: 'Automated touchscreen coffee machine with integrated precision conical burr grinder. Delivers third-wave specialty coffee at home with ThermoJet 3-second heat up.',
     shortDescription: 'Touchscreen espresso machine with integrated grinder & auto milk texturing',
-    sku: 'HOME-BREVILLE-BES880',
+    sku: 'HOME-BREV-BES880',
     brand: 'Breville',
     category: 'home',
     subcategory: 'kitchen',
@@ -416,28 +879,16 @@ export const sampleProducts = [
     compareAtPrice: 1199.95,
     inventory: { quantity: 18, lowStockThreshold: 4, trackQuantity: true },
     rating: 4.9,
-    numReviews: 87,
+    numReviews: 92,
     featured: true,
     status: 'active',
     tags: ['coffee', 'espresso', 'kitchen', 'breville', 'appliances'],
-    specifications: [
-      { key: 'Pump Pressure', value: '15 Bar Italian Pump (9 bar extraction)' },
-      { key: 'Water Tank', value: '2.0 Liters (67 fl.oz)' },
-      { key: 'Heating System', value: 'ThermoJet (3 second heat up)' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=800&q=80',
-        publicId: 'espresso_machine_main',
-        alt: 'Espresso Coffee Machine',
-        isMain: true
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=800&q=80', isMain: true }]
   },
   {
     name: 'Ergonomic Executive Mesh Office Chair',
-    description: 'Engineered for all-day comfort with responsive 3D lumbar support, breathable Korean elastomeric mesh, 4D adjustable armrests, and dynamic synchro-tilt mechanism.',
-    shortDescription: 'High-back ergonomic mesh task chair with adaptive dynamic lumbar',
+    description: 'Engineered for all-day comfort with responsive 3D lumbar support, breathable Korean elastomeric mesh, 4D adjustable armrests, and dynamic synchro-tilt.',
+    shortDescription: 'High-back ergonomic mesh task chair with adaptive lumbar',
     sku: 'HOME-CHAIR-ERGO01',
     brand: 'ErgoMax',
     category: 'home',
@@ -445,28 +896,34 @@ export const sampleProducts = [
     price: 389.00,
     compareAtPrice: 499.00,
     inventory: { quantity: 30, lowStockThreshold: 6, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 74,
+    featured: true,
+    status: 'active',
+    tags: ['furniture', 'chair', 'office', 'ergonomic'],
+    images: [{ url: 'https://images.unsplash.com/photo-1580481077195-c3f2538cb81a?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Artisan Ceramic Pour-Over Coffee Dripper Set',
+    description: 'Hand-thrown stoneware ceramic dripper with double-walled borosilicate glass serving carafe and bamboo coaster.',
+    shortDescription: 'Handcrafted stoneware pour-over dripper with glass carafe',
+    sku: 'HOME-COFFEE-POUR01',
+    brand: 'Nordic Co.',
+    category: 'home',
+    subcategory: 'kitchen',
+    price: 49.00,
+    compareAtPrice: 65.00,
+    inventory: { quantity: 75, lowStockThreshold: 15, trackQuantity: true },
     rating: 4.7,
-    numReviews: 64,
+    numReviews: 58,
     featured: false,
     status: 'active',
-    tags: ['furniture', 'chair', 'office', 'ergonomic', 'desk'],
-    specifications: [
-      { key: 'Weight Capacity', value: '330 lbs (150 kg)' },
-      { key: 'Mechanism', value: 'Synchro-tilt with 4 recline lock positions' },
-      { key: 'Warranty', value: '5-Year Manufacturer Warranty' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1580481077195-c3f2538cb81a?w=800&q=80',
-        publicId: 'office_chair_main',
-        alt: 'Ergonomic Mesh Chair',
-        isMain: true
-      }
-    ]
+    tags: ['coffee', 'ceramic', 'kitchen', 'pour-over'],
+    images: [{ url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80', isMain: true }]
   },
   {
     name: 'Minimalist Dimmable LED Arc Floor Lamp',
-    description: 'Sculptural modern floor lamp crafted from matte black aluminum. Features seamless touch dimming, 3 color temperatures (2700K-5000K), and memory function.',
+    description: 'Sculptural matte black aluminum arc floor lamp with seamless touch dimming and 3 color temperatures (2700K-5000K).',
     shortDescription: 'Modern minimalist curved LED floor lamp with touch dimming',
     sku: 'HOME-LAMP-ARC01',
     brand: 'Lumina',
@@ -475,62 +932,94 @@ export const sampleProducts = [
     price: 149.00,
     compareAtPrice: 189.00,
     inventory: { quantity: 40, lowStockThreshold: 8, trackQuantity: true },
-    rating: 4.6,
-    numReviews: 42,
+    rating: 4.7,
+    numReviews: 46,
     featured: false,
     status: 'active',
     tags: ['lamp', 'lighting', 'decor', 'minimalist', 'home'],
-    specifications: [
-      { key: 'Brightness', value: '2000 Lumens (24W LED)' },
-      { key: 'Color Temp', value: '2700K Warm / 4000K Neutral / 5000K Cool' },
-      { key: 'Height', value: '180 cm (71 inches)' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80',
-        publicId: 'arc_lamp_main',
-        alt: 'Modern Arc Lamp',
-        isMain: true
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Pre-Seasoned 12" Heavy Duty Cast Iron Skillet',
+    description: '100% natural oil seasoned cast iron skillet with dual pour spouts and helper handle. Exceptional heat retention for searing, baking, and frying.',
+    shortDescription: '12-inch pre-seasoned cast iron skillet for stove and oven',
+    sku: 'HOME-COOK-SKILLET12',
+    brand: 'Craft+',
+    category: 'home',
+    subcategory: 'kitchen',
+    price: 69.00,
+    compareAtPrice: 89.00,
+    inventory: { quantity: 60, lowStockThreshold: 12, trackQuantity: true },
+    rating: 4.9,
+    numReviews: 130,
+    featured: false,
+    status: 'active',
+    tags: ['skillet', 'cast-iron', 'cookware', 'kitchen'],
+    images: [{ url: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Hand-Poured Soy Aromatherapy Candle (Cedar & Amber)',
+    description: 'Eco-friendly natural soy wax with crackling wood wick. Infused with essential oils of Virginia cedarwood, warm amber, and smoked vanilla.',
+    shortDescription: '50-hour clean burning soy candle with wood wick in amber glass',
+    sku: 'HOME-CANDLE-CEDAR01',
+    brand: 'Nordic Co.',
+    category: 'home',
+    subcategory: 'decor',
+    price: 34.00,
+    compareAtPrice: 45.00,
+    inventory: { quantity: 100, lowStockThreshold: 20, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 89,
+    featured: false,
+    status: 'active',
+    tags: ['candle', 'aromatherapy', 'home-decor', 'soy'],
+    images: [{ url: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Organic Stoneware Dinnerware Set (16-Piece)',
+    description: 'Complete service for 4 handcrafted from durable ceramic stoneware with matte reactive glaze. Microwave and dishwasher safe.',
+    shortDescription: '16-piece artisan ceramic stoneware dinner set for 4',
+    sku: 'HOME-DINNER-STONE16',
+    brand: 'Nordic Co.',
+    category: 'home',
+    subcategory: 'kitchen',
+    price: 189.00,
+    compareAtPrice: 240.00,
+    inventory: { quantity: 30, lowStockThreshold: 6, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 52,
+    featured: true,
+    status: 'active',
+    tags: ['dinnerware', 'plates', 'ceramic', 'kitchen', 'dining'],
+    images: [{ url: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&q=80', isMain: true }]
   },
 
-  // --- SPORTS & FITNESS ---
+  // ==========================================
+  // 6. SPORTS & FITNESS (20 items)
+  // ==========================================
   {
     name: 'Quick-Dial Adjustable Dumbbells (Pair, 5-52.5 lbs)',
-    description: 'Replaces 15 pairs of weights. Smooth dial system lets you quickly adjust weights from 5 to 52.5 lbs in 2.5 lb increments. Durable molding around metal plates creates smooth lift-off and quiet workouts.',
-    shortDescription: 'Space-saving adjustable dumbbell pair from 5 to 52.5 lbs with selector dial',
-    sku: 'FIT-DUMBBELL-ADJ50',
+    description: 'Replaces 15 pairs of weights. Smooth dial system adjusts weights from 5 to 52.5 lbs in 2.5 lb increments. Durable thermoplastic molding for silent lift-off.',
+    shortDescription: 'Space-saving adjustable dumbbell pair 5-52.5 lbs with selector dial',
+    sku: 'SPORT-DUMBBELL-ADJ50',
     brand: 'FlexFit',
     category: 'sports',
     subcategory: 'fitness',
     price: 349.00,
     compareAtPrice: 429.00,
-    inventory: { quantity: 22, lowStockThreshold: 4, trackQuantity: true },
+    inventory: { quantity: 25, lowStockThreshold: 5, trackQuantity: true },
     rating: 4.9,
-    numReviews: 95,
+    numReviews: 120,
     featured: true,
     status: 'active',
     tags: ['fitness', 'workout', 'dumbbells', 'gym', 'weights'],
-    specifications: [
-      { key: 'Weight Range', value: '5 to 52.5 lbs (2.5 to 24 kg) per dumbbell' },
-      { key: 'Increments', value: '2.5 lb increments for the first 25 lbs' },
-      { key: 'Plates', value: 'Steel plates coated in impact-resistant thermoplastic' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=800&q=80',
-        publicId: 'dumbbells_main',
-        alt: 'Adjustable Dumbbells',
-        isMain: true
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=800&q=80', isMain: true }]
   },
   {
     name: 'Eco-Friendly Non-Slip Natural Tree Rubber Yoga Mat',
-    description: 'High-density natural biodegradable tree rubber base with ultra-absorbent polyurethane top layer. Alignment guide lines etched with laser for perfect posture and joint protection.',
+    description: 'High-density natural biodegradable tree rubber base with ultra-absorbent polyurethane top layer and laser-etched alignment guides.',
     shortDescription: '6mm extra-thick non-slip natural rubber yoga mat with alignment guides',
-    sku: 'FIT-YOGA-MAT6MM',
+    sku: 'SPORT-YOGA-MAT6MM',
     brand: 'ZenForm',
     category: 'sports',
     subcategory: 'yoga',
@@ -538,29 +1027,17 @@ export const sampleProducts = [
     compareAtPrice: 95.00,
     inventory: { quantity: 70, lowStockThreshold: 14, trackQuantity: true },
     rating: 4.8,
-    numReviews: 57,
-    featured: false,
+    numReviews: 65,
+    featured: true,
     status: 'active',
     tags: ['yoga', 'fitness', 'mat', 'eco-friendly', 'sports'],
-    specifications: [
-      { key: 'Thickness', value: '6mm Joint-Cushioning' },
-      { key: 'Material', value: '100% Natural Biodegradable Tree Rubber + PU' },
-      { key: 'Dimensions', value: '72" x 26" (183cm x 66cm)' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=800&q=80',
-        publicId: 'yoga_mat_main',
-        alt: 'Eco Rubber Yoga Mat',
-        isMain: true
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=800&q=80', isMain: true }]
   },
   {
     name: 'HydroFlask 32oz Wide Mouth Vacuum Insulated Bottle',
-    description: 'TempShield double-wall vacuum insulation keeps beverages cold for up to 24 hours and piping hot for up to 12 hours. Made with pro-grade 18/8 stainless steel and durable powder coat.',
+    description: 'TempShield double-wall vacuum insulation keeps beverages icy cold for 24 hours or steaming hot for 12 hours. Made with pro-grade 18/8 stainless steel.',
     shortDescription: '32oz double-wall vacuum insulated stainless steel water bottle',
-    sku: 'FIT-HYDRO-32OZ',
+    sku: 'SPORT-HYDRO-32OZ',
     brand: 'HydroFlask',
     category: 'sports',
     subcategory: 'hydration',
@@ -568,22 +1045,64 @@ export const sampleProducts = [
     compareAtPrice: 49.95,
     inventory: { quantity: 120, lowStockThreshold: 25, trackQuantity: true },
     rating: 4.9,
-    numReviews: 180,
+    numReviews: 210,
     featured: false,
     status: 'active',
     tags: ['bottle', 'hydroflask', 'hydration', 'sports', 'outdoor'],
-    specifications: [
-      { key: 'Capacity', value: '32 fl oz (946 ml)' },
-      { key: 'Material', value: '18/8 Pro-Grade Stainless Steel (BPA-Free)' },
-      { key: 'Insulation', value: 'Cold up to 24h, Hot up to 12h' }
-    ],
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=800&q=80',
-        publicId: 'hydroflask_main',
-        alt: 'HydroFlask Bottle',
-        isMain: true
-      }
-    ]
+    images: [{ url: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Smart Bluetooth Speed Jump Rope with LCD Handle',
+    description: 'Steel wire rope with 360-degree ball bearings and built-in sensor. Syncs jump count, time, and calories burned with smartphone app.',
+    shortDescription: 'Digital jump rope with app sync and adjustable tangle-free wire',
+    sku: 'SPORT-ROPE-SMART01',
+    brand: 'FlexFit',
+    category: 'sports',
+    subcategory: 'fitness',
+    price: 39.99,
+    compareAtPrice: 55.00,
+    inventory: { quantity: 85, lowStockThreshold: 15, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 83,
+    featured: false,
+    status: 'active',
+    tags: ['jumprope', 'fitness', 'cardio', 'smart'],
+    images: [{ url: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Deep Tissue Percussion Muscle Massage Gun',
+    description: 'Brushless high-torque motor delivering 3200 RPM with 6 interchangeable massage heads and 20 speed levels for post-workout muscle recovery.',
+    shortDescription: 'Quiet 20-speed deep tissue massage gun with 6 hour battery',
+    sku: 'SPORT-GUN-MASSAGE01',
+    brand: 'FlexFit',
+    category: 'sports',
+    subcategory: 'recovery',
+    price: 119.00,
+    compareAtPrice: 159.00,
+    inventory: { quantity: 50, lowStockThreshold: 10, trackQuantity: true },
+    rating: 4.8,
+    numReviews: 140,
+    featured: true,
+    status: 'active',
+    tags: ['massage-gun', 'recovery', 'fitness', 'muscles'],
+    images: [{ url: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=800&q=80', isMain: true }]
+  },
+  {
+    name: 'Heavy Duty Loop Resistance Exercise Bands (Set of 5)',
+    description: '100% natural Malaysian latex resistance bands ranging from 10 lbs to 50 lbs with carrying pouch and workout exercise guide.',
+    shortDescription: 'Set of 5 natural latex loop resistance workout bands',
+    sku: 'SPORT-BANDS-LATEX5',
+    brand: 'ZenForm',
+    category: 'sports',
+    subcategory: 'fitness',
+    price: 24.99,
+    compareAtPrice: 35.00,
+    inventory: { quantity: 150, lowStockThreshold: 30, trackQuantity: true },
+    rating: 4.7,
+    numReviews: 175,
+    featured: false,
+    status: 'active',
+    tags: ['bands', 'resistance', 'workout', 'fitness'],
+    images: [{ url: 'https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=800&q=80', isMain: true }]
   }
 ];

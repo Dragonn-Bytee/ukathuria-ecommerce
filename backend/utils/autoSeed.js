@@ -5,13 +5,7 @@ import { sampleUsers, sampleProducts } from './seedData.js';
 export async function autoSeedDatabase(options = {}) {
   const { force = false } = options;
   try {
-    const existingCount = await Product.countDocuments();
-    if (existingCount > 0 && !force) {
-      console.log(`Database already has ${existingCount} products. Skipping auto-seed.`);
-      return { seeded: false, count: existingCount };
-    }
-
-    console.log('Seeding MongoDB database with initial catalog...');
+    console.log('Running MongoDB database catalog sync...');
 
     // 1. Ensure Admin and Demo users exist
     let adminUser = await User.findOne({ email: 'admin@ecommerce.com' });
@@ -43,10 +37,11 @@ export async function autoSeedDatabase(options = {}) {
 
     // 2. Clear products if force mode is requested
     if (force) {
+      console.log('Force reset requested. Clearing existing products...');
       await Product.deleteMany({});
     }
 
-    // 3. Insert products with createdBy linked to admin user
+    // 3. Upsert products with createdBy linked to admin user
     let insertedCount = 0;
     for (const item of sampleProducts) {
       const exists = await Product.findOne({ sku: item.sku });
@@ -61,10 +56,10 @@ export async function autoSeedDatabase(options = {}) {
     }
 
     const totalProducts = await Product.countDocuments();
-    console.log(`Successfully seeded database. Total products: ${totalProducts}`);
+    console.log(`Database catalog sync complete. Inserted: ${insertedCount}, Total in DB: ${totalProducts}`);
     return { seeded: true, count: totalProducts, inserted: insertedCount };
   } catch (error) {
-    console.error('Error seeding database:', error);
+    console.error('Error syncing/seeding database:', error);
     return { seeded: false, error: error.message };
   }
 }

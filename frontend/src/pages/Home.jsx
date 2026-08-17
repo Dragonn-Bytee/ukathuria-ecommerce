@@ -35,13 +35,13 @@ const Home = () => {
   )
 
   const categories = [
-    { name: 'Electronics', icon: 'https://rukminim1.flixcart.com/flap/128/128/image/69c6589653afdb9a.png?q=100' },
-    { name: 'Fashion', icon: 'https://rukminim1.flixcart.com/flap/128/128/image/82b3ca5fb2301045.png?q=100' },
-    { name: 'Home', icon: 'https://rukminim1.flixcart.com/flap/128/128/image/29327f40e9c4d26b.png?q=100' },
-    { name: 'Appliances', icon: null, svg: <AppliancesSVG /> },
-    { name: 'Mobiles', icon: 'https://rukminim1.flixcart.com/flap/128/128/image/22fddf3c7da4c4f4.png?q=100' },
-    { name: 'Travel', icon: 'https://rukminim1.flixcart.com/flap/128/128/image/71050627a56b4693.png?q=100' },
-    { name: 'Beauty', icon: 'https://rukminim1.flixcart.com/flap/128/128/image/dff3f7adcf3a90c6.png?q=100' }
+    { name: 'Electronics', slug: 'electronics', icon: 'https://rukminim1.flixcart.com/flap/128/128/image/69c6589653afdb9a.png?q=100' },
+    { name: 'Fashion & Apparel', slug: 'apparel', icon: 'https://rukminim1.flixcart.com/flap/128/128/image/82b3ca5fb2301045.png?q=100' },
+    { name: 'Footwear', slug: 'footwear', icon: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=128&q=80' },
+    { name: 'Accessories', slug: 'accessories', icon: 'https://rukminim1.flixcart.com/flap/128/128/image/71050627a56b4693.png?q=100' },
+    { name: 'Home & Living', slug: 'home', icon: 'https://rukminim1.flixcart.com/flap/128/128/image/29327f40e9c4d26b.png?q=100' },
+    { name: 'Fitness & Sports', slug: 'sports', icon: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=128&q=80' },
+    { name: 'Appliances', slug: 'appliances', svg: <AppliancesSVG /> }
   ]
 
   return (
@@ -50,10 +50,10 @@ const Home = () => {
       <div className="bg-[#131624] border-b border-white/5 py-3 overflow-x-auto no-scrollbar">
         <div className="container mx-auto px-4 flex justify-between min-w-[700px]">
           {categories.map((cat) => (
-            <Link key={cat.name} to={`/products?category=${cat.name.toLowerCase()}`} className="flex flex-col items-center gap-1 group transition-all">
-              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-blue-600/10 group-hover:scale-105 transition-all">
+            <Link key={cat.name} to={`/products?category=${cat.slug}`} className="flex flex-col items-center gap-1 group transition-all">
+              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-blue-600/10 group-hover:scale-105 transition-all overflow-hidden p-2">
                 {cat.svg ? cat.svg : (
-                  <img src={cat.icon} alt={cat.name} className="w-12 h-12 object-contain" />
+                  <img src={cat.icon} alt={cat.name} className="w-12 h-12 object-contain rounded-xl" />
                 )}
               </div>
               <span className="text-[11px] font-bold text-slate-400 group-hover:text-white uppercase tracking-wider">{cat.name}</span>

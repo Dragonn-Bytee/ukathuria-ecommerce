@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 import { getProducts, getCategories, getBrands, setFilters, clearFilters } from '../store/slices/productSlice'
 import ProductCard from '../components/ProductCard'
 import { SlidersHorizontal, ArrowUpDown, X, ChevronDown, ChevronUp, RotateCcw } from 'lucide-react'
@@ -38,7 +39,7 @@ const Section = ({ title, children, defaultOpen = true }) => {
           ? <ChevronUp className="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-300 transition-colors" />
           : <ChevronDown className="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-300 transition-colors" />}
       </button>
-      <div className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-96 mt-3 opacity-100' : 'max-h-0 opacity-0'}`}>
+      <div className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-96 mt-3 opacity-100 overflow-y-auto' : 'max-h-0 opacity-0'}`}>
         {children}
       </div>
     </div>
@@ -64,8 +65,8 @@ const CheckRow = ({ label, checked, onChange }) => (
         </svg>
       )}
     </span>
-    <span className={`text-sm transition-colors ${checked ? 'text-white font-medium' : 'text-slate-400 group-hover:text-slate-200'}`}>
-      {label.charAt(0).toUpperCase() + label.slice(1)}
+    <span className={`text-sm transition-colors capitalize ${checked ? 'text-white font-semibold' : 'text-slate-400 group-hover:text-slate-200'}`}>
+      {label}
     </span>
   </button>
 )
@@ -112,11 +113,29 @@ const Pill = ({ label, onRemove }) => (
 // ══════════════════════════════════════════════════════════════════════════════
 const Products = () => {
   const dispatch = useDispatch()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { products, categories, brands, pagination, isLoading } = useSelector(s => s.products)
 
-  const INITIAL = { category: '', brand: '', minPrice: '', maxPrice: '', rating: '', sort: '-createdAt' }
-  const [f, setF] = useState(INITIAL)
-  const [priceMax, setPriceMax] = useState(1000)
+  // Parse filters from URL params
+  const urlCategory = searchParams.get('category') || ''
+  const urlBrand = searchParams.get('brand') || ''
+  const urlSearch = searchParams.get('search') || ''
+  const urlSort = searchParams.get('sort') || '-createdAt'
+  const urlMinPrice = searchParams.get('minPrice') || ''
+  const urlMaxPrice = searchParams.get('maxPrice') || ''
+  const urlRating = searchParams.get('rating') || ''
+
+  const [f, setF] = useState({
+    category: urlCategory,
+    brand: urlBrand,
+    search: urlSearch,
+    sort: urlSort,
+    minPrice: urlMinPrice,
+    maxPrice: urlMaxPrice,
+    rating: urlRating,
+  })
+
+  const [priceMax, setPriceMax] = useState(urlMaxPrice ? parseInt(urlMaxPrice) : 3000)
   const [showFilters, setShowFilters] = useState(true)
   const [sortOpen, setSortOpen] = useState(false)
   const sortRef = useRef()
@@ -128,47 +147,86 @@ const Products = () => {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  // Load static data once
+  // Load static category/brand metadata once
   useEffect(() => {
-    dispatch(getProducts())
     dispatch(getCategories())
     dispatch(getBrands())
   }, [dispatch])
 
-  // ── Real-time fetch on any filter change ────────────────────────────────────
-  const fetchNow = useCallback((filters) => {
-    dispatch(setFilters(filters))
-    dispatch(getProducts(filters))
-  }, [dispatch])
+  // Sync state whenever URL searchParams change
+  useEffect(() => {
+    const currentCategory = searchParams.get('category') || ''
+    const currentBrand = searchParams.get('brand') || ''
+    const currentSearch = searchParams.get('search') || ''
+    const currentSort = searchParams.get('sort') || '-createdAt'
+    const currentMinPrice = searchParams.get('minPrice') || ''
+    const currentMaxPrice = searchParams.get('maxPrice') || ''
+    const currentRating = searchParams.get('rating') || ''
 
-  const debouncedFetch = useDebounce(fetchNow, 400)   // debounce price slider
+    const newFilter = {
+      category: currentCategory,
+      brand: currentBrand,
+      search: currentSearch,
+      sort: currentSort,
+      minPrice: currentMinPrice,
+      maxPrice: currentMaxPrice,
+      rating: currentRating,
+    }
 
-  // Update a single filter key immediately (or debounced for price)
+    setF(newFilter)
+    if (currentMaxPrice) setPriceMax(parseInt(currentMaxPrice))
+
+    // Fetch matching products
+    const queryParams = { ...newFilter }
+    Object.keys(queryParams).forEach(key => {
+      if (!queryParams[key]) delete queryParams[key]
+    })
+    dispatch(setFilters(queryParams))
+    dispatch(getProducts(queryParams))
+  }, [searchParams, dispatch])
+
+  // ── Sync filter changes to URL searchParams ────────────────────────────────
+  const applyFiltersToUrl = useCallback((newFilters) => {
+    const params = new URLSearchParams()
+    Object.keys(newFilters).forEach(key => {
+      if (newFilters[key] && newFilters[key] !== '-createdAt') {
+        params.set(key, newFilters[key])
+      }
+    })
+    setSearchParams(params)
+  }, [setSearchParams])
+
+  const debouncedApplyUrl = useDebounce(applyFiltersToUrl, 300)
+
+  // Update a single filter key immediately (or debounced for slider)
   const update = (key, val, debounce = false) => {
     const next = { ...f, [key]: val }
     setF(next)
-    if (debounce) debouncedFetch(next)
-    else fetchNow(next)
+    if (debounce) debouncedApplyUrl(next)
+    else applyFiltersToUrl(next)
   }
 
   // ── Clear everything ────────────────────────────────────────────────────────
   const handleClear = () => {
-    setF(INITIAL)
-    setPriceMax(1000)
-    dispatch(clearFilters())
-    dispatch(getProducts())
+    setPriceMax(3000)
+    setSearchParams(new URLSearchParams())
   }
 
   // ── Pagination ──────────────────────────────────────────────────────────────
   const handlePage = (page) => {
-    dispatch(getProducts({ ...f, page }))
+    const queryParams = { ...f, page }
+    Object.keys(queryParams).forEach(key => {
+      if (!queryParams[key]) delete queryParams[key]
+    })
+    dispatch(getProducts(queryParams))
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   // ── Active filter pills ─────────────────────────────────────────────────────
   const activePills = [
-    f.category && { label: f.category, key: 'category' },
-    f.brand    && { label: f.brand,    key: 'brand' },
+    f.search   && { label: `"${f.search}"`, key: 'search' },
+    f.category && { label: `Category: ${f.category}`, key: 'category' },
+    f.brand    && { label: `Brand: ${f.brand}`, key: 'brand' },
     f.maxPrice && { label: `Under $${f.maxPrice}`, key: 'maxPrice' },
     f.rating   && { label: `${f.rating}+ ★`, key: 'rating' },
   ].filter(Boolean)
@@ -264,7 +322,7 @@ const Products = () => {
               <div className="w-64 rounded-2xl overflow-hidden" style={{ background: '#131624', border: '1px solid rgba(255,255,255,0.06)' }}>
                 {/* Sidebar header */}
                 <div className="flex items-center justify-between px-5 pt-5 pb-3">
-                  <span className="text-white font-bold text-sm tracking-wide">Filters</span>
+                  <span className="text-white font-bold text-sm tracking-wide">Filter Options</span>
                   {hasActive && (
                     <button
                       onClick={handleClear}
@@ -279,32 +337,32 @@ const Products = () => {
                 <div className="px-4 pb-5">
                   {/* Category */}
                   <Section title="Category">
-                    <div className="space-y-1">
+                    <div className="space-y-1 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
                       {categories.length > 0 ? categories.map(cat => (
                         <CheckRow
                           key={cat}
                           label={cat}
-                          checked={f.category === cat}
-                          onChange={() => update('category', f.category === cat ? '' : cat)}
+                          checked={f.category.toLowerCase() === cat.toLowerCase()}
+                          onChange={() => update('category', f.category.toLowerCase() === cat.toLowerCase() ? '' : cat)}
                         />
                       )) : (
-                        <p className="text-xs text-slate-600 px-3">No categories found</p>
+                        <p className="text-xs text-slate-600 px-3">Loading categories...</p>
                       )}
                     </div>
                   </Section>
 
                   {/* Brand */}
                   <Section title="Brand">
-                    <div className="space-y-1">
+                    <div className="space-y-1 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
                       {brands.length > 0 ? brands.map(brand => (
                         <CheckRow
                           key={brand}
                           label={brand}
-                          checked={f.brand === brand}
-                          onChange={() => update('brand', f.brand === brand ? '' : brand)}
+                          checked={f.brand.toLowerCase() === brand.toLowerCase()}
+                          onChange={() => update('brand', f.brand.toLowerCase() === brand.toLowerCase() ? '' : brand)}
                         />
                       )) : (
-                        <p className="text-xs text-slate-600 px-3">No brands found</p>
+                        <p className="text-xs text-slate-600 px-3">Loading brands...</p>
                       )}
                     </div>
                   </Section>
@@ -319,16 +377,16 @@ const Products = () => {
                       <div className="relative">
                         <input
                           type="range"
-                          min={0} max={1000} step={10}
+                          min={0} max={3000} step={25}
                           value={priceMax}
                           onChange={e => {
                             const v = e.target.value
-                            setPriceMax(v)
+                            setPriceMax(parseInt(v))
                             update('maxPrice', v, true) // debounced
                           }}
                           className="w-full h-1.5 appearance-none rounded-full cursor-pointer"
                           style={{
-                            background: `linear-gradient(to right, #3b82f6 ${priceMax/10}%, #2a3050 ${priceMax/10}%)`
+                            background: `linear-gradient(to right, #3b82f6 ${(priceMax/3000)*100}%, #2a3050 ${(priceMax/3000)*100}%)`
                           }}
                         />
                       </div>
@@ -397,12 +455,12 @@ const Products = () => {
                 )}
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center py-28 text-center">
+              <div className="flex flex-col items-center justify-center py-28 text-center bg-[#131624] rounded-2xl border border-white/5">
                 <div className="w-16 h-16 rounded-2xl bg-white/4 flex items-center justify-center mb-4 border border-white/6">
                   <SlidersHorizontal className="w-7 h-7 text-slate-500" />
                 </div>
-                <h3 className="text-white font-bold text-lg mb-2">No products match</h3>
-                <p className="text-slate-400 text-sm mb-6 max-w-xs">Try removing some filters to see more results</p>
+                <h3 className="text-white font-bold text-lg mb-2">No products match the selected filters</h3>
+                <p className="text-slate-400 text-sm mb-6 max-w-xs">Try clearing or adjusting some filters to explore other items.</p>
                 <button
                   onClick={handleClear}
                   className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"
@@ -436,6 +494,13 @@ const Products = () => {
           background: #3b82f6;
           border: 2px solid #1e3a8a;
           cursor: pointer;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.15);
+          border-radius: 4px;
         }
       `}</style>
     </div>

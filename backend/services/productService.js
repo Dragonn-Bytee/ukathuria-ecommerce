@@ -7,7 +7,7 @@ class ProductService {
   async getProducts(query) {
     const {
       page = 1,
-      limit = 12,
+      limit = 24,
       sort = '-createdAt',
       fields,
       status,
@@ -25,7 +25,7 @@ class ProductService {
     // Build query
     const queryObj = status === 'all' ? {} : { status: status || 'active' };
 
-    // Category filtering
+    // Category filtering (handles aliases gracefully)
     if (category) {
       const cat = category.toLowerCase().trim();
       if (cat === 'fashion') {
@@ -42,7 +42,7 @@ class ProductService {
     }
 
     if (brand) {
-      queryObj.brand = new RegExp(brand, 'i');
+      queryObj.brand = new RegExp(brand.trim(), 'i');
     }
 
     // Price filtering
@@ -58,18 +58,38 @@ class ProductService {
     }
 
     // Featured filtering
-    if (featured === 'true') {
+    if (featured === 'true' || featured === true) {
       queryObj.featured = true;
     }
 
     // Stock filtering
-    if (inStock === 'true') {
+    if (inStock === 'true' || inStock === true) {
       queryObj['inventory.quantity'] = { $gt: 0 };
     }
 
-    // Search functionality
-    if (search) {
-      queryObj.$text = { $search: search };
+    // Search functionality with case-insensitive regex
+    if (search && search.trim()) {
+      const sRegex = new RegExp(search.trim(), 'i');
+      queryObj.$or = [
+        { name: sRegex },
+        { description: sRegex },
+        { brand: sRegex },
+        { category: sRegex },
+        { tags: sRegex }
+      ];
+    }
+
+    // Sort mapping
+    let sortOption = { createdAt: -1 };
+    if (sort) {
+      if (sort === 'price') sortOption = { price: 1 };
+      else if (sort === '-price') sortOption = { price: -1 };
+      else if (sort === '-rating' || sort === 'rating') sortOption = { rating: -1, numReviews: -1 };
+      else if (sort === 'name') sortOption = { name: 1 };
+      else if (sort === '-name') sortOption = { name: -1 };
+      else if (sort === 'newest' || sort === '-createdAt') sortOption = { createdAt: -1 };
+      else if (sort === 'oldest' || sort === 'createdAt') sortOption = { createdAt: 1 };
+      else sortOption = sort;
     }
 
     // Field selection
@@ -79,12 +99,15 @@ class ProductService {
     }
 
     // Execute query with pagination
+    const parsedLimit = Math.max(1, parseInt(limit) || 24);
+    const parsedPage = Math.max(1, parseInt(page) || 1);
+
     const products = await Product.find(queryObj)
       .select(selectFields)
       .populate('createdBy', 'name')
-      .sort(sort)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
+      .sort(sortOption)
+      .limit(parsedLimit)
+      .skip((parsedPage - 1) * parsedLimit)
       .lean();
 
     // Get total count for pagination
@@ -93,12 +116,28 @@ class ProductService {
     return {
       products,
       pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
+        page: parsedPage,
+        limit: parsedLimit,
         total,
-        pages: Math.ceil(total / limit)
+        pages: Math.ceil(total / parsedLimit) || 1
       }
     };
+  }
+
+  // Get product categories
+  async getCategories() {
+    const categories = await Product.distinct('category', { status: 'active' });
+    return categories.filter(Boolean).sort();
+  }
+
+  // Get product brands
+  async getBrands(category) {
+    const filter = { status: 'active' };
+    if (category) {
+      filter.category = category.toLowerCase().trim();
+    }
+    const brands = await Product.distinct('brand', filter);
+    return brands.filter(Boolean).sort();
   }
 
   // Get product by ID or slug

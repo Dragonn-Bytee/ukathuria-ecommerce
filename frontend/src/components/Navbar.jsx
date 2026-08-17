@@ -18,9 +18,11 @@ const Navbar = () => {
 
   const handleSearch = (e) => {
     e.preventDefault()
-    dispatch(setFilters({ search }))
-    dispatch(getProducts({ search }))
-    navigate('/products')
+    if (search.trim()) {
+      navigate(`/products?search=${encodeURIComponent(search.trim())}`)
+    } else {
+      navigate('/products')
+    }
   }
 
   return (
