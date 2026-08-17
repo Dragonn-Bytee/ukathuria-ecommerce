@@ -34,6 +34,21 @@ export const login = catchAsync(async (req, res) => {
   });
 });
 
+// Google OAuth Login
+export const googleLogin = catchAsync(async (req, res) => {
+  const { user, accessToken, refreshToken } = await authService.googleAuth(req.body);
+
+  res.json({
+    status: 'success',
+    message: 'Google Sign-In successful',
+    data: {
+      user,
+      accessToken,
+      refreshToken
+    }
+  });
+});
+
 // Refresh access token
 export const refreshToken = catchAsync(async (req, res) => {
   const { refreshToken } = req.body;

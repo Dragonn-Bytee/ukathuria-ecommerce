@@ -26,9 +26,23 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
+    required: function() {
+      return !this.googleId && this.authProvider !== 'google';
+    },
     minlength: [6, 'Password must be at least 6 characters long'],
     select: false
+  },
+  googleId: {
+    type: String,
+    sparse: true
+  },
+  avatar: {
+    type: String
+  },
+  authProvider: {
+    type: String,
+    enum: ['local', 'google'],
+    default: 'local'
   },
   role: {
     type: String,
@@ -146,8 +160,8 @@ userSchema.methods.matchPassword = async function(enteredPassword) {
 
 // Pre-save middleware for password hashing
 userSchema.pre('save', async function(next) {
-  // Only run this function if password was actually modified
-  if (!this.isModified('password')) return next();
+  // Only run this function if password was actually modified and present
+  if (!this.isModified('password') || !this.password) return next();
   
   // Hash the password with cost of 12
   this.password = await bcrypt.hash(this.password, 12);

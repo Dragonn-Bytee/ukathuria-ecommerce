@@ -97,6 +97,86 @@ class AuthService {
     };
   }
 
+  // Google OAuth Login / Register
+  async googleAuth(googleData) {
+    const { credential, email, name, picture, googleId } = googleData || {};
+
+    let userEmail = email;
+    let userName = name;
+    let userPicture = picture;
+    let userGoogleId = googleId;
+
+    // Decode Google ID Token if passed from Google GSI
+    if (credential) {
+      try {
+        const base64Url = credential.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+          Buffer.from(base64, 'base64')
+            .toString('latin1')
+            .split('')
+            .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+        );
+        const payload = JSON.parse(jsonPayload);
+        userEmail = payload.email || userEmail;
+        userName = payload.name || payload.given_name || userName || 'Google User';
+        userPicture = payload.picture || userPicture;
+        userGoogleId = payload.sub || userGoogleId;
+      } catch (err) {
+        console.warn('Failed to parse Google credential JWT:', err.message);
+      }
+    }
+
+    if (!userEmail) {
+      throw new AppError('Google email not provided or could not be verified', 400);
+    }
+
+    // Find or create user
+    let user = await User.findOne({ email: userEmail.toLowerCase() });
+
+    if (!user) {
+      user = await User.create({
+        name: userName || 'Google User',
+        email: userEmail.toLowerCase(),
+        googleId: userGoogleId || `google_${Date.now()}`,
+        avatar: userPicture,
+        authProvider: 'google',
+        emailVerified: true,
+        isActive: true
+      });
+    } else {
+      if (!user.googleId && userGoogleId) {
+        user.googleId = userGoogleId;
+        user.authProvider = 'google';
+      }
+      if (userPicture && !user.avatar) {
+        user.avatar = userPicture;
+      }
+      if (!user.emailVerified) {
+        user.emailVerified = true;
+      }
+      await user.save();
+    }
+
+    if (!user.isActive) {
+      throw new AppError('Account has been deactivated', 401);
+    }
+
+    await user.resetLoginAttempts();
+
+    const { accessToken, refreshToken } = this.generateTokens(user._id);
+    await user.addRefreshToken(refreshToken);
+
+    user.password = undefined;
+
+    return {
+      user,
+      accessToken,
+      refreshToken
+    };
+  }
+
   // Refresh access token
   async refreshToken(refreshToken) {
     // Find user with this refresh token

@@ -3,6 +3,7 @@ import Joi from 'joi';
 import {
   register,
   login,
+  googleLogin,
   refreshToken,
   logout,
   logoutAll,
@@ -37,6 +38,7 @@ const router = express.Router();
 // Public routes
 router.post('/register', validate(registerSchema), register);
 router.post('/login', validate(loginSchema), login);
+router.post('/google', googleLogin);
 router.post('/refresh-token', validate({ refreshToken: Joi.string().required() }), refreshToken);
 router.post('/logout', logout);
 router.post('/request-password-reset', validate({ email: Joi.string().email().required() }), requestPasswordReset);

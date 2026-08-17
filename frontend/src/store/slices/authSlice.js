@@ -50,6 +50,29 @@ export const register = createAsyncThunk(
   }
 )
 
+export const googleLogin = createAsyncThunk(
+  'auth/googleLogin',
+  async (googleData, thunkAPI) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/google`, googleData)
+      
+      // Store tokens and user info
+      localStorage.setItem('accessToken', response.data.data.accessToken)
+      localStorage.setItem('refreshToken', response.data.data.refreshToken)
+      localStorage.setItem('userInfo', JSON.stringify(response.data.data.user))
+      
+      // Set default auth header
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.accessToken}`
+      
+      return response.data.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      )
+    }
+  }
+)
+
 export const refreshToken = createAsyncThunk(
   'auth/refreshToken',
   async (_, thunkAPI) => {
@@ -258,6 +281,24 @@ const authSlice = createSlice({
         state.isAuthenticated = true
       })
       .addCase(register.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.payload
+        state.isAuthenticated = false
+      })
+
+      // Google Login
+      .addCase(googleLogin.pending, (state) => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.user = action.payload.user
+        state.accessToken = action.payload.accessToken
+        state.refreshToken = action.payload.refreshToken
+        state.isAuthenticated = true
+      })
+      .addCase(googleLogin.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload
         state.isAuthenticated = false
