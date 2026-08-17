@@ -27,7 +27,14 @@ class ProductService {
 
     // Category filtering
     if (category) {
-      queryObj.category = category.toLowerCase();
+      const cat = category.toLowerCase().trim();
+      if (cat === 'fashion') {
+        queryObj.category = { $in: ['fashion', 'apparel'] };
+      } else if (cat === 'mobiles' || cat === 'appliances') {
+        queryObj.$or = [{ category: cat }, { category: 'electronics' }, { subcategory: cat }];
+      } else {
+        queryObj.category = cat;
+      }
     }
 
     if (subcategory) {

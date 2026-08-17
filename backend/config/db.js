@@ -9,6 +9,14 @@ const connectDB = async () => {
       tlsAllowInvalidCertificates: true
     });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
+
+    // Auto-seed initial catalog if database is empty
+    try {
+      const { autoSeedDatabase } = await import('../utils/autoSeed.js');
+      await autoSeedDatabase();
+    } catch (seedErr) {
+      console.error('Auto-seed error:', seedErr.message);
+    }
   } catch (error) {
     console.error(`Error: ${error.message}`);
     // Don't exit process in development to allow nodemon to retry

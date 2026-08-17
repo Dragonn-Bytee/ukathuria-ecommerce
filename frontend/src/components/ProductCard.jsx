@@ -64,13 +64,16 @@ const ProductCard = ({ product, isLoading = false }) => {
 
   const imgSrc = product.images?.[0]?.url || getFallback(product)
   const outOfStock = product.inventory?.trackQuantity && product.inventory?.quantity === 0
-  const discountPrice = product.price * 1.4 // Mock original price for discount effect
+  const comparePrice = product.compareAtPrice && product.compareAtPrice > product.price
+    ? product.compareAtPrice
+    : product.price * 1.3
+  const discountPercent = Math.round(((comparePrice - product.price) / comparePrice) * 100)
 
   return (
-    <div className="group relative bg-[#131624] rounded-2xl overflow-hidden border border-white/5 hover:border-blue-500/30 transition-all duration-300 hover:shadow-2xl">
+    <div className="group relative bg-[#131624] rounded-2xl overflow-hidden border border-white/5 hover:border-blue-500/30 transition-all duration-300 hover:shadow-2xl flex flex-col justify-between">
       {/* Image Area */}
       <Link to={`/product/${product._id}`} className="block relative p-4 bg-white/2">
-        <div className="aspect-square overflow-hidden rounded-xl bg-[#0d0f1a] flex items-center justify-center">
+        <div className="aspect-square overflow-hidden rounded-xl bg-[#0d0f1a] flex items-center justify-center p-2">
           <img
             src={imgSrc}
             alt={product.name}
@@ -84,6 +87,7 @@ const ProductCard = ({ product, isLoading = false }) => {
           onClick={handleAddToCart}
           disabled={outOfStock}
           className="absolute bottom-6 right-6 w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-xl translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all z-10 hover:bg-blue-500"
+          title="Add to cart"
         >
           <ShoppingCart className="w-4 h-4" />
         </button>
@@ -97,34 +101,38 @@ const ProductCard = ({ product, isLoading = false }) => {
       </Link>
 
       {/* Info Area */}
-      <div className="p-5 pt-0">
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-[10px] text-blue-400 font-black uppercase tracking-widest">{product.brand || 'Premium'}</p>
-          <div className="flex items-center gap-1 bg-emerald-500/10 px-1.5 py-0.5 rounded text-[10px] font-bold text-emerald-400">
-            <span>{product.rating || 4.5}</span>
-            <Star className="w-2.5 h-2.5 fill-current" />
+      <div className="p-5 pt-0 flex-1 flex flex-col justify-between">
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-[10px] text-blue-400 font-black uppercase tracking-widest">{product.brand || 'Premium'}</p>
+            <div className="flex items-center gap-1 bg-emerald-500/10 px-1.5 py-0.5 rounded text-[10px] font-bold text-emerald-400">
+              <span>{product.rating || 4.5}</span>
+              <Star className="w-2.5 h-2.5 fill-current" />
+            </div>
           </div>
-        </div>
 
-        <Link to={`/product/${product._id}`}>
-          <h3 className="text-white font-bold text-sm leading-tight mb-2 hover:text-blue-400 transition-colors line-clamp-2 min-h-[2.5rem]">
-            {product.name}
-          </h3>
-        </Link>
+          <Link to={`/product/${product._id}`}>
+            <h3 className="text-white font-bold text-sm leading-tight mb-2 hover:text-blue-400 transition-colors line-clamp-2 min-h-[2.5rem]">
+              {product.name}
+            </h3>
+          </Link>
 
-        {/* Ukathuria Assured (Flipkart Style) */}
-        <div className="flex items-center gap-1 mb-3">
-          <div className="bg-blue-600 px-1 py-0.5 rounded flex items-center">
-             <span className="text-[8px] font-black text-white italic">Ukathuria</span>
+          {/* Ukathuria Assured */}
+          <div className="flex items-center gap-1 mb-3">
+            <div className="bg-blue-600 px-1 py-0.5 rounded flex items-center">
+               <span className="text-[8px] font-black text-white italic">Ukathuria</span>
+            </div>
+            <span className="text-[9px] font-bold text-slate-500">Assured</span>
           </div>
-          <span className="text-[9px] font-bold text-slate-500">Assured</span>
         </div>
 
         {/* Pricing */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-2">
           <span className="text-lg font-black text-white">{formatPrice(product.price)}</span>
-          <span className="text-xs text-slate-500 line-through">{formatPrice(discountPrice)}</span>
-          <span className="text-xs font-bold text-emerald-400">40% off</span>
+          <span className="text-xs text-slate-500 line-through">{formatPrice(comparePrice)}</span>
+          {discountPercent > 0 && (
+            <span className="text-xs font-bold text-emerald-400">{discountPercent}% off</span>
+          )}
         </div>
       </div>
 
