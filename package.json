@@ -1,0 +1,12 @@
+{
+  "name": "ukathuria-ecommerce",
+  "private": true,
+  "description": "Root package for Render deployment (backend lives in ./backend)",
+  "scripts": {
+    "start": "node backend/server.js",
+    "build": "npm install --prefix backend"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
