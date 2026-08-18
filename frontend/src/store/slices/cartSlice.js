@@ -36,19 +36,29 @@ export const addToCart = createAsyncThunk(
   'cart/addToCart',
   async ({ productId, quantity }, thunkAPI) => {
     try {
-      const sessionId = localStorage.getItem('guestSessionId')
-      const url = sessionId 
-        ? `${API_URL}/cart/guest/add?sessionId=${sessionId}`
-        : `${API_URL}/cart/add`
-      
-      const response = await axios.post(url, { productId, quantity })
-      
-      // Store session ID for guest users
-      if (sessionId && response.data.data.cart.sessionId) {
-        localStorage.setItem('guestSessionId', response.data.data.cart.sessionId)
+      const isAuthenticated = !!localStorage.getItem('accessToken')
+
+      if (isAuthenticated) {
+        // Logged-in user: use protected endpoint
+        const response = await axios.post(`${API_URL}/cart/add`, { productId, quantity })
+        return response.data.data.cart
+      } else {
+        // Guest user: create a session ID if one doesn't exist yet
+        let sessionId = localStorage.getItem('guestSessionId')
+        if (!sessionId) {
+          sessionId = 'guest-' + Math.random().toString(36).slice(2) + Date.now().toString(36)
+          localStorage.setItem('guestSessionId', sessionId)
+        }
+        const response = await axios.post(
+          `${API_URL}/cart/guest/add?sessionId=${sessionId}`,
+          { productId, quantity }
+        )
+        // Update session ID in case backend returns a new one
+        if (response.data.data.cart.sessionId) {
+          localStorage.setItem('guestSessionId', response.data.data.cart.sessionId)
+        }
+        return response.data.data.cart
       }
-      
-      return response.data.data.cart
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message

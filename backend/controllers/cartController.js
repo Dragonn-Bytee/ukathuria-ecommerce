@@ -1,5 +1,6 @@
 import cartService from '../services/cartService.js';
 import catchAsync from '../utils/catchAsync.js';
+import AppError from '../utils/appError.js';
 
 // Get user cart
 export const getCart = catchAsync(async (req, res) => {
@@ -37,7 +38,7 @@ export const getGuestCart = catchAsync(async (req, res) => {
 });
 
 // Add item to cart
-export const addItem = catchAsync(async (req, res) => {
+export const addItem = catchAsync(async (req, res, next) => {
   const { productId, quantity } = req.body;
   
   let cart;
@@ -61,7 +62,7 @@ export const addItem = catchAsync(async (req, res) => {
 });
 
 // Remove item from cart
-export const removeItem = catchAsync(async (req, res) => {
+export const removeItem = catchAsync(async (req, res, next) => {
   const { productId } = req.params;
   
   let cart;
@@ -85,7 +86,7 @@ export const removeItem = catchAsync(async (req, res) => {
 });
 
 // Update item quantity
-export const updateItemQuantity = catchAsync(async (req, res) => {
+export const updateItemQuantity = catchAsync(async (req, res, next) => {
   const { productId } = req.params;
   const { quantity } = req.body;
   
@@ -110,7 +111,7 @@ export const updateItemQuantity = catchAsync(async (req, res) => {
 });
 
 // Clear cart
-export const clearCart = catchAsync(async (req, res) => {
+export const clearCart = catchAsync(async (req, res, next) => {
   let cart;
   if (req.user) {
     cart = await cartService.clearCart(req.user._id);
@@ -132,7 +133,7 @@ export const clearCart = catchAsync(async (req, res) => {
 });
 
 // Merge guest cart with user cart
-export const mergeCart = catchAsync(async (req, res) => {
+export const mergeCart = catchAsync(async (req, res, next) => {
   const { sessionId } = req.body;
   
   if (!sessionId) {
