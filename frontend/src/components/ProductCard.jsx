@@ -43,7 +43,8 @@ const ProductCard = ({ product, isLoading = false }) => {
       await dispatch(addToCart({ productId: product._id, quantity: 1 })).unwrap()
       toast.success('Added to cart!')
     } catch (error) {
-      toast.error(error.message || 'Failed to add to cart')
+      const msg = typeof error === 'string' ? error : (error?.message || 'Failed to add to cart')
+      toast.error(msg)
     }
   }
 

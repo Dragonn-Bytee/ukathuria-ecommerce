@@ -18,8 +18,19 @@ export const getCart = createAsyncThunk(
     try {
       const token = localStorage.getItem('accessToken')
       if (token) {
-        const response = await api.get('/cart')
-        return { cart: response.data.data.cart, isGuest: false }
+        try {
+          const response = await api.get('/cart')
+          return { cart: response.data.data.cart, isGuest: false }
+        } catch (authError) {
+          if (authError.response?.status === 401 || authError.response?.status === 403) {
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+            localStorage.removeItem('userInfo')
+            // Fall through to guest cart flow
+          } else {
+            throw authError
+          }
+        }
       }
 
       const sessionId = localStorage.getItem('guestSessionId')
@@ -30,9 +41,8 @@ export const getCart = createAsyncThunk(
       const response = await api.get(`/cart/guest?sessionId=${sessionId}`)
       return { cart: response.data.data.cart, isGuest: true }
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      )
+      const errorMsg = error.response?.data?.message || error.message || 'Failed to fetch cart'
+      return thunkAPI.rejectWithValue(errorMsg)
     }
   }
 )
@@ -44,9 +54,8 @@ export const getGuestCart = createAsyncThunk(
       const response = await api.get(`/cart/guest?sessionId=${sessionId}`)
       return response.data.data.cart
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      )
+      const errorMsg = error.response?.data?.message || error.message || 'Failed to fetch cart'
+      return thunkAPI.rejectWithValue(errorMsg)
     }
   }
 )
@@ -59,23 +68,35 @@ export const addToCart = createAsyncThunk(
       let response
 
       if (token) {
-        response = await api.post('/cart/add', { productId, quantity })
-      } else {
-        const sessionId = getOrCreateGuestSessionId()
-        response = await api.post(`/cart/guest/add?sessionId=${sessionId}`, {
-          productId,
-          quantity
-        })
-        if (response.data?.data?.cart?.sessionId) {
-          localStorage.setItem('guestSessionId', response.data.data.cart.sessionId)
+        try {
+          response = await api.post('/cart/add', { productId, quantity })
+          return response.data.data.cart
+        } catch (authError) {
+          if (authError.response?.status === 401 || authError.response?.status === 403) {
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+            localStorage.removeItem('userInfo')
+            // Token was invalid/expired, fall through to guest cart flow
+          } else {
+            throw authError
+          }
         }
+      }
+
+      // Guest flow
+      const sessionId = getOrCreateGuestSessionId()
+      response = await api.post(`/cart/guest/add?sessionId=${sessionId}`, {
+        productId,
+        quantity
+      })
+      if (response.data?.data?.cart?.sessionId) {
+        localStorage.setItem('guestSessionId', response.data.data.cart.sessionId)
       }
 
       return response.data.data.cart
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      )
+      const errorMsg = error.response?.data?.message || error.message || 'Failed to add to cart'
+      return thunkAPI.rejectWithValue(errorMsg)
     }
   }
 )
@@ -88,20 +109,29 @@ export const removeFromCart = createAsyncThunk(
       let response
 
       if (token) {
-        response = await api.delete(`/cart/${productId}`)
-      } else {
-        const sessionId = localStorage.getItem('guestSessionId')
-        if (!sessionId) {
-          return { items: [], totalItems: 0, subtotal: 0 }
+        try {
+          response = await api.delete(`/cart/${productId}`)
+          return response.data.data.cart
+        } catch (authError) {
+          if (authError.response?.status === 401 || authError.response?.status === 403) {
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+            localStorage.removeItem('userInfo')
+          } else {
+            throw authError
+          }
         }
-        response = await api.delete(`/cart/guest/${productId}?sessionId=${sessionId}`)
       }
 
+      const sessionId = localStorage.getItem('guestSessionId')
+      if (!sessionId) {
+        return { items: [], totalItems: 0, subtotal: 0 }
+      }
+      response = await api.delete(`/cart/guest/${productId}?sessionId=${sessionId}`)
       return response.data.data.cart
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      )
+      const errorMsg = error.response?.data?.message || error.message || 'Failed to remove item'
+      return thunkAPI.rejectWithValue(errorMsg)
     }
   }
 )
@@ -114,22 +144,32 @@ export const updateCartItemQuantity = createAsyncThunk(
       let response
 
       if (token) {
-        response = await api.put(`/cart/${productId}`, { quantity })
-      } else {
-        const sessionId = localStorage.getItem('guestSessionId')
-        if (!sessionId) {
-          return { items: [], totalItems: 0, subtotal: 0 }
+        try {
+          response = await api.put(`/cart/${productId}`, { quantity })
+          return response.data.data.cart
+        } catch (authError) {
+          if (authError.response?.status === 401 || authError.response?.status === 403) {
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+            localStorage.removeItem('userInfo')
+          } else {
+            throw authError
+          }
         }
-        response = await api.put(`/cart/guest/${productId}?sessionId=${sessionId}`, {
-          quantity
-        })
       }
+
+      const sessionId = localStorage.getItem('guestSessionId')
+      if (!sessionId) {
+        return { items: [], totalItems: 0, subtotal: 0 }
+      }
+      response = await api.put(`/cart/guest/${productId}?sessionId=${sessionId}`, {
+        quantity
+      })
 
       return response.data.data.cart
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      )
+      const errorMsg = error.response?.data?.message || error.message || 'Failed to update quantity'
+      return thunkAPI.rejectWithValue(errorMsg)
     }
   }
 )
@@ -141,20 +181,30 @@ export const clearCart = createAsyncThunk(
       const token = localStorage.getItem('accessToken')
 
       if (token) {
-        await api.delete('/cart')
-      } else {
-        const sessionId = localStorage.getItem('guestSessionId')
-        if (sessionId) {
-          await api.delete(`/cart/guest?sessionId=${sessionId}`)
-          localStorage.removeItem('guestSessionId')
+        try {
+          await api.delete('/cart')
+          return { items: [], totalItems: 0, subtotal: 0 }
+        } catch (authError) {
+          if (authError.response?.status === 401 || authError.response?.status === 403) {
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+            localStorage.removeItem('userInfo')
+          } else {
+            throw authError
+          }
         }
+      }
+
+      const sessionId = localStorage.getItem('guestSessionId')
+      if (sessionId) {
+        await api.delete(`/cart/guest?sessionId=${sessionId}`)
+        localStorage.removeItem('guestSessionId')
       }
 
       return { items: [], totalItems: 0, subtotal: 0 }
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      )
+      const errorMsg = error.response?.data?.message || error.message || 'Failed to clear cart'
+      return thunkAPI.rejectWithValue(errorMsg)
     }
   }
 )
@@ -173,9 +223,8 @@ export const mergeCart = createAsyncThunk(
       localStorage.removeItem('guestSessionId')
       return response.data.data.cart
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      )
+      const errorMsg = error.response?.data?.message || error.message || 'Failed to merge cart'
+      return thunkAPI.rejectWithValue(errorMsg)
     }
   }
 )
@@ -187,9 +236,8 @@ export const getCartSummary = createAsyncThunk(
       const response = await api.get('/cart/summary')
       return response.data.data.summary
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      )
+      const errorMsg = error.response?.data?.message || error.message || 'Failed to get cart summary'
+      return thunkAPI.rejectWithValue(errorMsg)
     }
   }
 )

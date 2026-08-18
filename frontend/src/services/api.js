@@ -35,7 +35,6 @@ api.interceptors.response.use(
 
     // Handle 401 Unauthorized
     if (error.response?.status === 401 && !originalRequest._retry) {
-      // Try to refresh the token
       const refreshToken = localStorage.getItem('refreshToken')
       
       if (refreshToken) {
@@ -57,21 +56,17 @@ api.interceptors.response.use(
           
           return api(originalRequest)
         } catch (refreshError) {
-          // Refresh failed, clear tokens and redirect to login
+          // Refresh failed, clear tokens
           localStorage.removeItem('accessToken')
           localStorage.removeItem('refreshToken')
           localStorage.removeItem('userInfo')
-          
-          window.location.href = '/login'
           return Promise.reject(refreshError)
         }
       } else {
-        // No refresh token, redirect to login
+        // No refresh token, clear tokens
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
         localStorage.removeItem('userInfo')
-        
-        window.location.href = '/login'
       }
     }
 
