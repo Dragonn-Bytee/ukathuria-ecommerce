@@ -5,7 +5,7 @@ import { getCart, clearCart } from '../store/slices/cartSlice'
 import CartItem from '../components/CartItem'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ErrorMessage from '../components/ErrorMessage'
-import { ShoppingCart, Trash2, ArrowRight } from 'lucide-react'
+import { ShoppingCart, Trash2, ArrowRight, Shield } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 
 const Cart = () => {

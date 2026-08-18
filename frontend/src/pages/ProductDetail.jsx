@@ -5,7 +5,7 @@ import { getProduct, addReview } from '../store/slices/productSlice'
 import { addToCart } from '../store/slices/cartSlice'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ErrorMessage from '../components/ErrorMessage'
-import { ShoppingCart, Star, Heart, Share2, Truck, Shield, RefreshCw } from 'lucide-react'
+import { ShoppingCart, Star, Heart, Share2, Truck, Shield, RefreshCw, Zap } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 
 const ProductDetail = () => {
