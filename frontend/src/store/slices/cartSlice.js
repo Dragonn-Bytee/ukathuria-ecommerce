@@ -1,15 +1,34 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
+import api from '../../services/api'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+// Helper to get or generate guest session ID
+const getOrCreateGuestSessionId = () => {
+  let sessionId = localStorage.getItem('guestSessionId')
+  if (!sessionId) {
+    sessionId = 'guest-' + Math.random().toString(36).slice(2) + Date.now().toString(36)
+    localStorage.setItem('guestSessionId', sessionId)
+  }
+  return sessionId
+}
 
 // Async thunks
 export const getCart = createAsyncThunk(
   'cart/getCart',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get(`${API_URL}/cart`)
-      return response.data.data.cart
+      const token = localStorage.getItem('accessToken')
+      if (token) {
+        const response = await api.get('/cart')
+        return { cart: response.data.data.cart, isGuest: false }
+      }
+
+      const sessionId = localStorage.getItem('guestSessionId')
+      if (!sessionId) {
+        return { cart: { items: [], totalItems: 0, subtotal: 0 }, isGuest: true }
+      }
+
+      const response = await api.get(`/cart/guest?sessionId=${sessionId}`)
+      return { cart: response.data.data.cart, isGuest: true }
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
@@ -22,7 +41,7 @@ export const getGuestCart = createAsyncThunk(
   'cart/getGuestCart',
   async (sessionId, thunkAPI) => {
     try {
-      const response = await axios.get(`${API_URL}/cart/guest?sessionId=${sessionId}`)
+      const response = await api.get(`/cart/guest?sessionId=${sessionId}`)
       return response.data.data.cart
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -34,31 +53,25 @@ export const getGuestCart = createAsyncThunk(
 
 export const addToCart = createAsyncThunk(
   'cart/addToCart',
-  async ({ productId, quantity }, thunkAPI) => {
+  async ({ productId, quantity = 1 }, thunkAPI) => {
     try {
-      const isAuthenticated = !!localStorage.getItem('accessToken')
+      const token = localStorage.getItem('accessToken')
+      let response
 
-      if (isAuthenticated) {
-        // Logged-in user: use protected endpoint
-        const response = await axios.post(`${API_URL}/cart/add`, { productId, quantity })
-        return response.data.data.cart
+      if (token) {
+        response = await api.post('/cart/add', { productId, quantity })
       } else {
-        // Guest user: create a session ID if one doesn't exist yet
-        let sessionId = localStorage.getItem('guestSessionId')
-        if (!sessionId) {
-          sessionId = 'guest-' + Math.random().toString(36).slice(2) + Date.now().toString(36)
-          localStorage.setItem('guestSessionId', sessionId)
-        }
-        const response = await axios.post(
-          `${API_URL}/cart/guest/add?sessionId=${sessionId}`,
-          { productId, quantity }
-        )
-        // Update session ID in case backend returns a new one
-        if (response.data.data.cart.sessionId) {
+        const sessionId = getOrCreateGuestSessionId()
+        response = await api.post(`/cart/guest/add?sessionId=${sessionId}`, {
+          productId,
+          quantity
+        })
+        if (response.data?.data?.cart?.sessionId) {
           localStorage.setItem('guestSessionId', response.data.data.cart.sessionId)
         }
-        return response.data.data.cart
       }
+
+      return response.data.data.cart
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
@@ -71,12 +84,19 @@ export const removeFromCart = createAsyncThunk(
   'cart/removeFromCart',
   async (productId, thunkAPI) => {
     try {
-      const sessionId = localStorage.getItem('guestSessionId')
-      const url = sessionId 
-        ? `${API_URL}/cart/guest/${productId}?sessionId=${sessionId}`
-        : `${API_URL}/cart/${productId}`
-      
-      const response = await axios.delete(url)
+      const token = localStorage.getItem('accessToken')
+      let response
+
+      if (token) {
+        response = await api.delete(`/cart/${productId}`)
+      } else {
+        const sessionId = localStorage.getItem('guestSessionId')
+        if (!sessionId) {
+          return { items: [], totalItems: 0, subtotal: 0 }
+        }
+        response = await api.delete(`/cart/guest/${productId}?sessionId=${sessionId}`)
+      }
+
       return response.data.data.cart
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -90,12 +110,21 @@ export const updateCartItemQuantity = createAsyncThunk(
   'cart/updateCartItemQuantity',
   async ({ productId, quantity }, thunkAPI) => {
     try {
-      const sessionId = localStorage.getItem('guestSessionId')
-      const url = sessionId 
-        ? `${API_URL}/cart/guest/${productId}?sessionId=${sessionId}`
-        : `${API_URL}/cart/${productId}`
-      
-      const response = await axios.put(url, { quantity })
+      const token = localStorage.getItem('accessToken')
+      let response
+
+      if (token) {
+        response = await api.put(`/cart/${productId}`, { quantity })
+      } else {
+        const sessionId = localStorage.getItem('guestSessionId')
+        if (!sessionId) {
+          return { items: [], totalItems: 0, subtotal: 0 }
+        }
+        response = await api.put(`/cart/guest/${productId}?sessionId=${sessionId}`, {
+          quantity
+        })
+      }
+
       return response.data.data.cart
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -109,16 +138,18 @@ export const clearCart = createAsyncThunk(
   'cart/clearCart',
   async (_, thunkAPI) => {
     try {
-      const sessionId = localStorage.getItem('guestSessionId')
-      const url = sessionId 
-        ? `${API_URL}/cart/guest?sessionId=${sessionId}`
-        : `${API_URL}/cart`
-      
-      await axios.delete(url)
-      
-      // Clear guest session ID
-      localStorage.removeItem('guestSessionId')
-      
+      const token = localStorage.getItem('accessToken')
+
+      if (token) {
+        await api.delete('/cart')
+      } else {
+        const sessionId = localStorage.getItem('guestSessionId')
+        if (sessionId) {
+          await api.delete(`/cart/guest?sessionId=${sessionId}`)
+          localStorage.removeItem('guestSessionId')
+        }
+      }
+
       return { items: [], totalItems: 0, subtotal: 0 }
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -132,11 +163,14 @@ export const mergeCart = createAsyncThunk(
   'cart/mergeCart',
   async (sessionId, thunkAPI) => {
     try {
-      const response = await axios.post(`${API_URL}/cart/merge`, { sessionId })
-      
-      // Clear guest session ID after merge
+      const sid = sessionId || localStorage.getItem('guestSessionId')
+      if (!sid) {
+        const response = await api.get('/cart')
+        return response.data.data.cart
+      }
+
+      const response = await api.post('/cart/merge', { sessionId: sid })
       localStorage.removeItem('guestSessionId')
-      
       return response.data.data.cart
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -150,7 +184,7 @@ export const getCartSummary = createAsyncThunk(
   'cart/getCartSummary',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get(`${API_URL}/cart/summary`)
+      const response = await api.get('/cart/summary')
       return response.data.data.summary
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -160,25 +194,19 @@ export const getCartSummary = createAsyncThunk(
   }
 )
 
-// Get initial state from localStorage
-const getInitialState = () => {
-  const guestSessionId = localStorage.getItem('guestSessionId')
-  
-  return {
-    items: [],
-    totalItems: 0,
-    subtotal: 0,
-    shippingAddress: null,
-    billingAddress: null,
-    paymentMethod: 'stripe',
-    guestSessionId: guestSessionId || null,
-    isLoading: false,
-    error: null,
-    isGuest: !localStorage.getItem('accessToken')
-  }
+// Initial state
+const initialState = {
+  items: [],
+  totalItems: 0,
+  subtotal: 0,
+  shippingAddress: null,
+  billingAddress: null,
+  paymentMethod: 'stripe',
+  guestSessionId: localStorage.getItem('guestSessionId') || null,
+  isLoading: false,
+  error: null,
+  isGuest: !localStorage.getItem('accessToken')
 }
-
-const initialState = getInitialState()
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -211,10 +239,11 @@ const cartSlice = createSlice({
       })
       .addCase(getCart.fulfilled, (state, action) => {
         state.isLoading = false
-        state.items = action.payload.items || []
-        state.totalItems = action.payload.totalItems || 0
-        state.subtotal = action.payload.subtotal || 0
-        state.isGuest = false
+        const cart = action.payload?.cart || action.payload || {}
+        state.items = cart.items || []
+        state.totalItems = cart.totalItems || 0
+        state.subtotal = cart.subtotal || 0
+        state.isGuest = action.payload?.isGuest ?? !localStorage.getItem('accessToken')
       })
       .addCase(getCart.rejected, (state, action) => {
         state.isLoading = false
@@ -223,9 +252,9 @@ const cartSlice = createSlice({
       
       // Get guest cart
       .addCase(getGuestCart.fulfilled, (state, action) => {
-        state.items = action.payload.items || []
-        state.totalItems = action.payload.totalItems || 0
-        state.subtotal = action.payload.subtotal || 0
+        state.items = action.payload?.items || []
+        state.totalItems = action.payload?.totalItems || 0
+        state.subtotal = action.payload?.subtotal || 0
         state.isGuest = true
       })
       
@@ -236,9 +265,9 @@ const cartSlice = createSlice({
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.isLoading = false
-        state.items = action.payload.items || []
-        state.totalItems = action.payload.totalItems || 0
-        state.subtotal = action.payload.subtotal || 0
+        state.items = action.payload?.items || []
+        state.totalItems = action.payload?.totalItems || 0
+        state.subtotal = action.payload?.subtotal || 0
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.isLoading = false
@@ -252,9 +281,9 @@ const cartSlice = createSlice({
       })
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.isLoading = false
-        state.items = action.payload.items || []
-        state.totalItems = action.payload.totalItems || 0
-        state.subtotal = action.payload.subtotal || 0
+        state.items = action.payload?.items || []
+        state.totalItems = action.payload?.totalItems || 0
+        state.subtotal = action.payload?.subtotal || 0
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.isLoading = false
@@ -268,9 +297,9 @@ const cartSlice = createSlice({
       })
       .addCase(updateCartItemQuantity.fulfilled, (state, action) => {
         state.isLoading = false
-        state.items = action.payload.items || []
-        state.totalItems = action.payload.totalItems || 0
-        state.subtotal = action.payload.subtotal || 0
+        state.items = action.payload?.items || []
+        state.totalItems = action.payload?.totalItems || 0
+        state.subtotal = action.payload?.subtotal || 0
       })
       .addCase(updateCartItemQuantity.rejected, (state, action) => {
         state.isLoading = false
@@ -278,10 +307,10 @@ const cartSlice = createSlice({
       })
       
       // Clear cart
-      .addCase(clearCart.fulfilled, (state, action) => {
-        state.items = action.payload.items || []
-        state.totalItems = action.payload.totalItems || 0
-        state.subtotal = action.payload.subtotal || 0
+      .addCase(clearCart.fulfilled, (state) => {
+        state.items = []
+        state.totalItems = 0
+        state.subtotal = 0
       })
       .addCase(clearCart.rejected, (state, action) => {
         state.error = action.payload
@@ -294,9 +323,9 @@ const cartSlice = createSlice({
       })
       .addCase(mergeCart.fulfilled, (state, action) => {
         state.isLoading = false
-        state.items = action.payload.items || []
-        state.totalItems = action.payload.totalItems || 0
-        state.subtotal = action.payload.subtotal || 0
+        state.items = action.payload?.items || []
+        state.totalItems = action.payload?.totalItems || 0
+        state.subtotal = action.payload?.subtotal || 0
         state.isGuest = false
         state.guestSessionId = null
       })

@@ -26,9 +26,9 @@ const cartItemSchema = new mongoose.Schema({
 const cartSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
     ref: 'User',
-    unique: true
+    unique: true,
+    sparse: true // Allow null for guest carts
   },
   items: [cartItemSchema],
   sessionId: {
@@ -117,6 +117,15 @@ cartSchema.methods.clearCart = function() {
 cartSchema.methods.isExpired = function() {
   return this.expiresAt < new Date();
 };
+
+// Pre-validate: every cart must belong to a user OR have a sessionId
+cartSchema.pre('validate', function(next) {
+  if (!this.user && !this.sessionId) {
+    next(new Error('Cart must have either a user or a sessionId'));
+  } else {
+    next();
+  }
+});
 
 // Pre-save middleware to update expiration
 cartSchema.pre('save', function(next) {

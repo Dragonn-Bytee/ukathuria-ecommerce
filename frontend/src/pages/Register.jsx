@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useGoogleLogin } from '@react-oauth/google'
 import { register, googleLogin } from '../store/slices/authSlice'
+import { mergeCart } from '../store/slices/cartSlice'
 import toast from 'react-hot-toast'
 
 // Google logo as SVG component
@@ -44,6 +45,10 @@ const Register = () => {
     }
     try {
       await dispatch(register({ name, email, password })).unwrap()
+      const guestSessionId = localStorage.getItem('guestSessionId')
+      if (guestSessionId) {
+        dispatch(mergeCart(guestSessionId))
+      }
       navigate('/')
       toast.success('Account created successfully!')
     } catch (err) {
@@ -64,6 +69,10 @@ const Register = () => {
           picture: userInfo.picture,
           googleId: userInfo.sub
         })).unwrap()
+        const guestSessionId = localStorage.getItem('guestSessionId')
+        if (guestSessionId) {
+          dispatch(mergeCart(guestSessionId))
+        }
         navigate('/')
         toast.success(`Welcome, ${userInfo.name}! Account created! 🎉`)
       } catch (err) {

@@ -14,8 +14,17 @@ import Profile from './pages/Profile.jsx'
 import Orders from './pages/Orders.jsx'
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCart } from './store/slices/cartSlice.js'
+
 function App() {
+  const dispatch = useDispatch()
   const { isAuthenticated, user } = useSelector(state => state.auth)
+
+  useEffect(() => {
+    dispatch(getCart())
+  }, [dispatch, isAuthenticated])
 
   return (
     <Router>
@@ -35,12 +44,9 @@ function App() {
             <Route path="/featured" element={<Products featured />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             
+            <Route path="/cart" element={<Cart />} />
+            
             {/* Protected Routes */}
-            <Route path="/cart" element={
-              <ProtectedRoute>
-                <Cart />
-              </ProtectedRoute>
-            } />
             <Route path="/checkout" element={
               <ProtectedRoute>
                 <Checkout />
