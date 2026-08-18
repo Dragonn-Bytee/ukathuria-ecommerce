@@ -234,10 +234,25 @@ export const updateOrderStatusSchema = Joi.object({
   }).optional()
 });
 
+export const refreshTokenSchema = Joi.object({
+  refreshToken: Joi.string().required().messages({
+    'any.required': 'Refresh token is required'
+  })
+});
+
+export const requestPasswordResetSchema = Joi.object({
+  email: patterns.email
+});
+
+export const resetPasswordSchema = Joi.object({
+  newPassword: patterns.password
+});
+
 // Validation middleware factory
 export const validate = (schema, property = 'body') => {
+  const joiSchema = (schema && typeof schema.validate === 'function') ? schema : Joi.object(schema);
   return (req, res, next) => {
-    const { error, value } = schema.validate(req[property], {
+    const { error, value } = joiSchema.validate(req[property], {
       abortEarly: false,
       stripUnknown: true
     });

@@ -30,7 +30,10 @@ import {
   loginSchema,
   changePasswordSchema,
   updateProfileSchema,
-  updateUserStatusSchema
+  updateUserStatusSchema,
+  refreshTokenSchema,
+  requestPasswordResetSchema,
+  resetPasswordSchema
 } from '../utils/validators.js';
 
 const router = express.Router();
@@ -39,10 +42,10 @@ const router = express.Router();
 router.post('/register', validate(registerSchema), register);
 router.post('/login', validate(loginSchema), login);
 router.post('/google', googleLogin);
-router.post('/refresh-token', validate({ refreshToken: Joi.string().required() }), refreshToken);
+router.post('/refresh-token', validate(refreshTokenSchema), refreshToken);
 router.post('/logout', logout);
-router.post('/request-password-reset', validate({ email: Joi.string().email().required() }), requestPasswordReset);
-router.post('/reset-password/:token', validate({ newPassword: Joi.string().min(6).required() }), resetPassword);
+router.post('/request-password-reset', validate(requestPasswordResetSchema), requestPasswordReset);
+router.post('/reset-password/:token', validate(resetPasswordSchema), resetPassword);
 router.get('/verify-email/:token', verifyEmail);
 
 // Protected routes
